@@ -1,0 +1,54 @@
+﻿@using Kendo.Mvc.UI
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Requisition Portal</title>
+
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/kendo/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/kendo")
+    @Scripts.Render("~/bundles/rportal")
+    @*<link href="~/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/bootstrap-3.3.6-dist/js/bootstrap.js"></script>*@
+    <script src="~/Scripts/sweetalert.js"></script>
+    <link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />"
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Requisition Portal", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Make New Requisition", "Create", "Requisition")</li>
+                    <li>@Html.ActionLink("View Requisition History", "Create", "Requisition")</li>
+                    <li>@Html.ActionLink("Contact Support", "Create", "Requisition")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - KPMG Nigeria</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

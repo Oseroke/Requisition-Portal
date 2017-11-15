@@ -1,0 +1,17 @@
+﻿@using System.Collections
+@*@model System.Int32*@
+@using Kendo.Mvc.UI
+
+
+
+
+@(Html.Kendo().DropDownListFor(m => m)
+        .DataValueField("Id")
+        .DataTextField("Code")
+                .BindTo((System.Collections.IEnumerable)ViewData["ChargeCodes"])
+                    .Animation(mp =>
+                    {
+                        mp.Open(x => { x.Zoom(ZoomDirection.In); });
+                        mp.Close(x => { x.Zoom(ZoomDirection.Out); });
+                    })
+)
