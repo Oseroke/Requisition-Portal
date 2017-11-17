@@ -204,10 +204,12 @@ namespace Requisition_Portal.Controllers
             if (buttonClicked == "Approve")
             {
                 requisition.StatusID = (int)SystemEnums.Status.ManagerApproved;
+                requisition.StatusDate = DateTime.Now;
             }
             else if(buttonClicked == "Reject")
             {
                 requisition.StatusID = (int)SystemEnums.Status.ManagerCancelled;
+                requisition.StatusDate = DateTime.Now;
             }
 
             _reqService.SaveRequisition(requisition);
@@ -216,6 +218,119 @@ namespace Requisition_Portal.Controllers
 
             return RedirectToAction("Create");
         }      
-        
+
+        public ActionResult History()
+        {
+            return View();
+        }
+
+        public ActionResult Req_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            var requisitions = _reqService.GetRequisitions(-1);
+
+            var _data = new List<RequisitionModel>();
+            foreach (var req in requisitions)
+            {
+                var reqModel = new RequisitionModel()
+                {
+                    Id = req.Id,
+                    Manager = req.Manager,
+                    ReqDate = req.ReqDate,
+                    Requestor = req.Requestor,
+                    StatusID = req.StatusID,
+                    //Status = ((SystemEnums.Status)(req.StatusID)).ToString(),
+                    StatusDate = req.StatusDate,
+                    Items = new List<ReqItemModel>()
+                };
+
+                foreach (var itm in req.Items)
+                {
+                    var reqItem = new ReqItemModel()
+                    {
+                        Id = itm.Id,
+                        ChargeCode = itm.ChargeCode,
+                        Description = itm.Description,
+                        Quantity = itm.Quantity,
+                        RequisitionID = itm.RequisitionID
+                    };
+
+                    reqModel.Items.Add(reqItem);
+                }
+
+                _data.Add(reqModel);
+            }
+            return Json(_data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Req_Update([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<RequisitionModel> models)
+        {
+            var results = new List<RequisitionModel>();
+            if (models != null && ModelState.IsValid)
+            {
+                foreach (var reqModel in models)
+                {
+                    try
+                    {
+                        var req = _reqService.GetRequisition(Convert.ToInt32(reqModel.Id));
+                        req.StatusID = (int)SystemEnums.Status.AwaitingAcknowledgement;
+
+                        reqModel.Status = ((SystemEnums.Status)req.StatusID).ToString();
+                        results.Add(reqModel);
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError("update", ex.Message);
+                        break;
+                    }
+
+
+                }
+            }
+
+            return Json(results.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
+        }
+
+        //[HttpPost]
+        public ActionResult CancelRequisition(int id)
+        {
+            try
+            {
+                var requisition = _reqService.GetRequisition(id);
+                requisition.StatusID = (int)SystemEnums.Status.UserCancelled;
+                requisition.StatusDate = DateTime.Now;
+                _reqService.SaveRequisition(requisition);
+
+                return RedirectToAction("Index");
+            }
+
+            catch
+            {
+
+                return View();
+            }
+        }
+
+        public ActionResult ReadReqItems(long requisitionID, [DataSourceRequest] DataSourceRequest request)
+        {
+            var items = _reqService.GetRequisitionItems(requisitionID);
+
+            var _data = new List<ReqItemModel>();
+
+            foreach (var item in items)
+            {
+                _data.Add(new ReqItemModel()
+                {
+                    Id = item.Id,
+                    Item = item.Item,
+                    ChargeCode = item.ChargeCode,
+                    Quantity = item.Quantity,
+                    RequisitionID = item.RequisitionID
+                });
+            }
+
+
+            return Json(_data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
     }
 }

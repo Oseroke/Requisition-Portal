@@ -15,7 +15,7 @@ namespace RequisitionPortal.BL.Abstracts
 
         Requisition GetOutstandingRequisition(int requisitionId);
 
-        IList<Requisition> GetOutstandingRequisitions(int statusId);
+        IList<Requisition> GetRequisitions(int statusId);
 
         IList<Req_Item> GetRequisitionItems(long requisitionID);
 

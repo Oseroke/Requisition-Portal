@@ -34,7 +34,7 @@ namespace Requisition_Portal.Controllers
 
         public ActionResult Req_Read([DataSourceRequest] DataSourceRequest request)
         {
-            var requisitions = _reqService.GetOutstandingRequisitions((int)SystemEnums.Status.ManagerApproved);
+            var requisitions = _reqService.GetRequisitions((int)SystemEnums.Status.ManagerApproved);
 
             var _data = new List<RequisitionModel>();
             foreach (var req in requisitions)
@@ -105,6 +105,7 @@ namespace Requisition_Portal.Controllers
             {
                 var requisition = _reqService.GetRequisition(id);
                 requisition.StatusID = (int)SystemEnums.Status.AwaitingAcknowledgement;
+                requisition.StatusDate = DateTime.Now;
                 _reqService.SaveRequisition(requisition);
 
                 return RedirectToAction("Index");

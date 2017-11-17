@@ -2,9 +2,10 @@
 
 @{
     ViewBag.Title = "Store";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Outstanding Requisitions</h2>
 
 @(Html.Kendo().Grid<Requisition_Portal.Models.RequisitionModel>()
                                     .Name("Grid")
@@ -62,4 +63,6 @@
     function dataBound() {
         this.expandRow(this.tbody.find("tr.k-master-row").first());
     }
+
+   
 </script>

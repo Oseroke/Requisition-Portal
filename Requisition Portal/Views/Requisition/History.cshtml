@@ -1,0 +1,91 @@
+﻿@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2>Requisition History</h2>
+
+@(Html.Kendo().Grid<Requisition_Portal.Models.RequisitionModel>()
+                                        .Name("Grid")
+                                        .Columns(columns =>
+                                        {
+                                            columns.Bound(p => p.Id).Hidden(true);
+                                            columns.Bound(p => p.Requestor);
+                                            columns.Bound(p => p.Manager).Title("Approving Manager");
+                                            columns.Bound(p => p.StatusString).Title("Status");
+                                            columns.Bound(p => p.StatusDateString).Title("Status Date");
+                                            //if(columns.Bound(p=> p.StatusID = (int)SystemEnums.))
+                                            columns.Command(command => { command.Custom("CancelRequest").Text("Cancel Request").Click("cancelRequisition"); });
+                                        })
+                    .Navigatable()
+                    .Selectable()
+                    .Sortable()
+                    .Events(events => { events.DataBound("onDataBound"); } )
+                .ClientDetailTemplateId("template")
+                .DataSource(dataSource => dataSource
+                .Ajax()
+                .Batch(true)
+                .ServerOperation(false)
+                .Events(events => { events.Error("error_handler"); events.RequestEnd("onRequestEnd"); })
+                .Model(model =>
+                {
+                    model.Id(p => p.Id);
+                    model.Field(p => p.Manager);
+                })
+                .Create("Req_Create", "Requisition")
+                .Read("Req_Read", "Requisition")
+                .Update("Req_Update", "Requisition")
+                .Destroy("Req_Destroy", "Requisition")
+        )
+
+)
+
+<script id="template" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<Requisition_Portal.Models.ReqItemModel>()
+            .Name("grid_#=Id#") // template expression, to be evaluated in the master context
+            .Columns(columns =>
+            {
+                columns.Bound(o => o.Item).Width(70);
+                columns.Bound(o => o.Quantity).Width(20);
+                columns.Bound(o => o.ChargeCode).Width(40).Title("Charge Code"); // escaped template expression, to be evaluated in the child/detail context
+            })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(8)
+                .Read(read => read.Action("ReadReqItems", "Requisition", new { requisitionID = "#=Id#" }))
+            )
+            .Pageable()
+            .Sortable()
+            .ToClientTemplate()
+    )
+</script>
+<script>
+    function dataBound() {
+        this.expandRow(this.tbody.find("tr.k-master-row").first());
+        
+    }
+
+    //function onDataBound(e) {
+    //    var grid = $("#Grid").data("kendoGrid");
+    //    var gridData = grid.dataSource.view();
+
+    //    for (var i = 0; i < gridData.length; i++) {
+    //        var currentUid = gridData[i].uid;
+    //        if (gridData[i].StatusID > 1) {
+    //            var currenRow = grid.table.find("tr[data-uid='" + currentUid + "']");
+                
+    //            var cancelButton = $(currenRow).find(".k-grid-CancelRequest");
+    //            cancelButton.hide();
+    //        }
+    //    }
+
+
+    //}
+
+    function sync_handler(e) {
+        this.read();
+    }
+</script>
