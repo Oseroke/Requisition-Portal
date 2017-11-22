@@ -11,9 +11,9 @@ namespace RequisitionPortal.BL.Entities
         public virtual string Name { get; set; }
         public virtual string Description { get; set; }
         public virtual int Quantity { get; set; }
-        //public virtual bool IsDeleted { get; set; }
-        //public virtual string ChargeCode { get; set; }
-        //public virtual string RequisitionID { get; set; }
+        public virtual decimal UnitPrice { get; set; }
+        public virtual int ReorderLevel { get; set; }
+        public virtual string Code { get; set; }
     }
 
     public class ItemMap: ClassMapping<Item>
@@ -27,6 +27,10 @@ namespace RequisitionPortal.BL.Entities
             this.Property<string>(x => x.Description, mp => { mp.Column("Description"); });
             this.Property<int>(x => x.Quantity, mp => { mp.Column("Quantity"); });
             this.Property<bool>(x => x.IsDeleted, mp => { mp.Column("IsDeleted"); });
+            this.Property<decimal>(x => x.UnitPrice, mp => { mp.Column("UnitPrice"); });
+            this.Property<int>(x => x.ReorderLevel, mp => { mp.Column("ReorderLevel"); });
+            this.Property<string>(x => x.Code, mp => { mp.Column("Code"); });
+
         }
     }
 }

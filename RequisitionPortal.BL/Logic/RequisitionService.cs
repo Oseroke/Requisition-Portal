@@ -24,8 +24,6 @@ namespace RequisitionPortal.BL.Logic
         {
             try
             {
-                //_auditService.LogUpdate<Disco, int>(disco.Id, disco);
-
                 _reqRep.SaveOrUpdate(requisition);
 
                 return requisition;
@@ -44,10 +42,7 @@ namespace RequisitionPortal.BL.Logic
 
                 if (requisitionId > 0)
                     query = query.Where(x => x.Id == requisitionId);
-                //query = query.Where(x => x.IsDeleted == false);
-                //qGetById(requisitionId);
 
-                //query = query.
                 return query.FirstOrDefault();
             }
             catch (Exception ex)
@@ -80,14 +75,14 @@ namespace RequisitionPortal.BL.Logic
             }
         }
 
-        public IList<Requisition> GetOutstandingRequisitions(int statusId)
+        public IList<Requisition> GetRequisitions(int statusId)
         {
             var query = _reqRep.Table.Where(x => x.IsDeleted == false);
 
             if (statusId > 0)
                 query = query.Where(x => x.StatusID == statusId);
 
-            return query.ToList();
+            return query.OrderByDescending(x=>x.StatusDate).ToList();
 
         }
 

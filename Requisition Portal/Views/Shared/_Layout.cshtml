@@ -34,9 +34,15 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Make New Requisition", "Create", "Requisition")</li>
-                    <li>@Html.ActionLink("View Requisition History", "Create", "Requisition")</li>
-                    <li>@Html.ActionLink("Contact Support", "Create", "Requisition")</li>
+                    <li>@Html.ActionLink("View Requisition History", "History", "Requisition")</li>
+                    <li>@Html.ActionLink("Outstanding Requisitions", "Response", "Requisition")</li>
+                    <li>@Html.ActionLink("Store", "Index", "Store")</li>
+                    <li>@Html.ActionLink("Vendors", "Index", "Vendor")</li>
+                    <li>@Html.ActionLink("Inventory", "Stock", "Store")</li>
+
+                    @*<li>@Html.ActionLink("Contact Support", "Create", "Requisition")</li>*@
                 </ul>
+                <p class="nav navbar-text navbar-right">Hello, @User.Identity.Name!</p>
             </div>
         </div>
     </div>

@@ -31,5 +31,6 @@ namespace RequisitionPortal.BL.Utils
             CancelledRequisition = 7,
             Completed = 8
         }
+                
     }
 }

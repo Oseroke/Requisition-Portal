@@ -69,7 +69,7 @@ namespace Requisition_Portal.Infrastructure
             //builder.RegisterType<EmailAccount>().As<IEmailAccount>().InstancePerHttpRequest();
             //builder.RegisterType<UtilityService>().As<IUtilityService>().InstancePerHttpRequest();
 
-            //builder.RegisterType<AuditService>().As<IAuditService>().InstancePerHttpRequest();
+            builder.RegisterType<AuditService>().As<IAuditService>().InstancePerHttpRequest();
 
 
 

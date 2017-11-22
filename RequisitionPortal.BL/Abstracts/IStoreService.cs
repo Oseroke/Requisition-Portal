@@ -9,6 +9,18 @@ namespace RequisitionPortal.BL.Abstracts
 {
     public interface IStoreService
     {
-        IList<Item> GetItems(bool includeDeleted); 
+        IList<Item> GetItems(bool includeDeleted, int itemID);
+
+        Item GetItem(int itemID);
+
+        Item SaveItem(Item item);
+
+        IList<Vendor> GetVendors(bool includeDeleted);
+
+        StoreItem SaveStoreItem(StoreItem item);
+
+        Vendor SaveVendor(Vendor vendor);
+
+        Vendor GetVendor(bool includeDeleted, int id);
     }
 }

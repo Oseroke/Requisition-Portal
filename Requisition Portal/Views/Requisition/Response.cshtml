@@ -1,7 +1,7 @@
 ﻿@using Kendo.Mvc.UI
 
 @{
-    ViewBag.Title = "History";
+    ViewBag.Title = "Response";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
@@ -23,7 +23,7 @@
             }); </text>
     }
 </script>
-<h2>Requisition History</h2>
+<h2>Requisitions</h2>
 
 @(Html.Kendo().Grid<Requisition_Portal.Models.RequisitionModel>()
                                         .Name("Grid")
@@ -35,12 +35,13 @@
                                             columns.Bound(p => p.StatusString).Title("Status");
                                             columns.Bound(p => p.StatusDateString).Title("Status Date");
                                             //if(columns.Bound(p=> p.StatusID = (int)SystemEnums.))
-                                            columns.Command(command => { command.Custom("CancelRequest").Text("Cancel Request").Click("cancelRequisition"); });
+                                            columns.Command(command => { command.Custom("ApproveRequest").Text("Approve Requisition").Click("approveRequisition"); });
+                                            columns.Command(command => { command.Custom("RejectRequest").Text("Reject Requisition").Click("rejectRequisition"); });
                                         })
                     .Navigatable()
                     .Selectable()
                     .Sortable()
-                    .Events(events => { events.DataBound("onDataBound"); } )
+                    //.Events(events => { events.DataBound("onDataBound"); })
                 .ClientDetailTemplateId("template")
                 .DataSource(dataSource => dataSource
                 .Ajax()
@@ -53,7 +54,7 @@
                     model.Field(p => p.Manager);
                 })
                 .Create("Req_Create", "Requisition")
-                .Read("Req_Read", "Requisition")
+                .Read("OutstandingReqRead", "Requisition")
                 .Update("Req_Update", "Requisition")
                 .Destroy("Req_Destroy", "Requisition")
         )
@@ -78,31 +79,4 @@
             .Sortable()
             .ToClientTemplate()
     )
-</script>
-<script>
-    function dataBound() {
-        this.expandRow(this.tbody.find("tr.k-master-row").first());
-        
-    }
-
-    //function onDataBound(e) {
-    //    var grid = $("#Grid").data("kendoGrid");
-    //    var gridData = grid.dataSource.view();
-
-    //    for (var i = 0; i < gridData.length; i++) {
-    //        var currentUid = gridData[i].uid;
-    //        if (gridData[i].StatusID > 1) {
-    //            var currenRow = grid.table.find("tr[data-uid='" + currentUid + "']");
-                
-    //            var cancelButton = $(currenRow).find(".k-grid-CancelRequest");
-    //            cancelButton.hide();
-    //        }
-    //    }
-
-
-    //}
-
-    function sync_handler(e) {
-        this.read();
-    }
 </script>

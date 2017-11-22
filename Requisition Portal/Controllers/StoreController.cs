@@ -51,7 +51,7 @@ namespace Requisition_Portal.Controllers
                     Items = new List<ReqItemModel>()
                 };
 
-                foreach(var itm in req.Items)
+                foreach (var itm in req.Items)
                 {
                     var reqItem = new ReqItemModel()
                     {
@@ -123,8 +123,8 @@ namespace Requisition_Portal.Controllers
             var items = _reqService.GetRequisitionItems(requisitionID);
 
             var _data = new List<ReqItemModel>();
-            
-            foreach(var item in items)
+
+            foreach (var item in items)
             {
                 _data.Add(new ReqItemModel()
                 {
@@ -135,9 +135,110 @@ namespace Requisition_Portal.Controllers
                     RequisitionID = item.RequisitionID
                 });
             }
-            
+
 
             return Json(_data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult Add()
+        {
+            var model = new StoreItemModel();
+            model.Items.Add(new SelectListItem() { Text = "-Select Item-", Value = "-1" });
+            var items = _storeService.GetItems(false, -1);
+
+            foreach (var item in items)
+            {
+                model.Items.Add(new SelectListItem() { Text = item.Name, Value = item.Id.ToString() });
+            }
+
+            var vendors = _storeService.GetVendors(false);
+            model.Vendors.Add(new SelectListItem() { Text = "-Select Item-", Value = "-1" });
+
+            foreach (var vendor in vendors)
+            {
+                model.Vendors.Add(new SelectListItem() { Text = vendor.Name, Value = vendor.Id.ToString() });
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Add(StoreItemModel model)
+        {
+            // Add Logic
+            if (model.ItemID == -1)
+            {
+                TempData["Message"] = "Select one item";
+                return RedirectToAction("Add");
+            }
+
+            var storeItem = new StoreItem()
+            {
+                InvoiceNumber = model.InvoiceNumber,
+                ItemID = model.ItemID,
+                PONumber = model.PONumber,
+                Date = DateTime.Today,
+                Quantity = model.Quantity,
+                UnitPrice = model.UnitPrice,
+                VendorID = model.VendorID,
+                IsDeleted = false,
+                Amount = model.UnitPrice * model.Quantity
+            };
+
+            try
+            {
+                _storeService.SaveStoreItem(storeItem);
+            }
+            catch
+            {
+
+            }
+
+            var item = _storeService.GetItem(storeItem.ItemID);
+            try
+            {
+                item.Quantity += storeItem.Quantity;
+                item.UnitPrice = storeItem.UnitPrice;
+
+                _storeService.SaveItem(item);
+                TempData["Message"] = "Record updated";
+            }
+            catch
+            {
+
+            }
+            
+            return RedirectToAction("Add");
+        }
+
+        public ActionResult Stock()
+        {
+            return View();
+        }
+
+        public ActionResult StoreRead([DataSourceRequest] DataSourceRequest request)
+        {
+            var items = _storeService.GetItems(false, -1);
+
+            var _data = new List<ItemModel>();
+            foreach (var item in items)
+            {
+                var model = new ItemModel()
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Quantity = item.Quantity,
+                    Code = item.Code
+                    
+                };
+
+                
+
+                _data.Add(model);
+            }
+            return Json(_data.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }

@@ -15,6 +15,8 @@ namespace RequisitionPortal.BL.Entities
         public virtual int StatusID { get; set; }
         public virtual DateTime StatusDate { get; set; }
         public virtual int UnitID { get; set; }
+        public virtual bool SentToAccounts { get; set; }
+        public virtual bool PostedByAccounts { get; set; }
         public virtual IList<Req_Item> Items { get; set; }
     }
 
@@ -33,7 +35,8 @@ namespace RequisitionPortal.BL.Entities
             this.Property<DateTime>(x => x.StatusDate, mp => { mp.Column("StatusDate"); });
             this.Bag(x => x.Items, mp => { mp.Cascade(Cascade.All); mp.Key(k => k.Column("RequisitionID")); });
             this.Property<bool>(x => x.IsDeleted, mp => { mp.Column("IsDeleted"); });
-
+            this.Property<bool>(x => x.SentToAccounts, mp => { mp.Column("SentToAccounts"); });
+            this.Property<bool>(x => x.PostedByAccounts, mp => { mp.Column("PostedByAccounts"); });
         }
     }
 }
