@@ -5,10 +5,22 @@
 
 
 
-@(Html.Kendo().DropDownListFor(m => m)
-        .DataValueField("Id")
+@*@(Html.Kendo().DropDownListFor(m => m)
+        .DataValueField("Code")
         .DataTextField("Name")
                 .BindTo((System.Collections.IEnumerable)ViewData["Items"])
+                    .Animation(mp =>
+                    {
+                        mp.Open(x => { x.Zoom(ZoomDirection.In); });
+                        mp.Close(x => { x.Zoom(ZoomDirection.Out); });
+                    })
+)*@
+
+@(Html.Kendo().AutoCompleteFor(m => m)
+        //.DataValueField("Code")
+        .DataTextField("Name")
+                .BindTo((System.Collections.IEnumerable)ViewData["Items"])
+                .Filter("contains")
                     .Animation(mp =>
                     {
                         mp.Open(x => { x.Zoom(ZoomDirection.In); });

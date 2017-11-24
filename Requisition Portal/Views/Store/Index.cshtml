@@ -16,7 +16,8 @@
                                         columns.Bound(p => p.Manager).Title("Approving Manager");
                                         columns.Bound(p => p.StatusString).Title("Status");
                                         columns.Bound(p => p.StatusDateString).Title("Status Date");
-                                        columns.Command(command => { command.Custom("Complete Request").Click("issueItem"); });
+                                        columns.Command(command => { command.Custom("Complete Requisition").Click("issueItem").HtmlAttributes(new { style = "background-color:green;color:white" }); });
+                                        columns.Command(command => { command.Custom("DeclineRequest").Text("Decline Requisition").Click("declineRequisition").HtmlAttributes(new { style = "background-color:maroon;color:white" }); });
                                     })
                 .Navigatable()
                 .Selectable()
@@ -45,9 +46,9 @@
             .Name("grid_#=Id#") // template expression, to be evaluated in the master context
             .Columns(columns =>
             {
-                columns.Bound(o => o.Item).Width(70);
+                columns.Bound(o => o.ItemName).Width(70);
                 columns.Bound(o => o.Quantity).Width(20);
-                columns.Bound(o => o.ChargeCode).Width(40).Title("Charge Code"); // escaped template expression, to be evaluated in the child/detail context
+                columns.Bound(o => o.ChargeCode.Code).Width(40).Title("Charge Code"); // escaped template expression, to be evaluated in the child/detail context
             })
             .DataSource(dataSource => dataSource
                 .Ajax()

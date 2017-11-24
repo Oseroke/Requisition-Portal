@@ -34,11 +34,14 @@ namespace RequisitionPortal.BL.Logic
             }
         }
 
-        public Requisition GetRequisition(int requisitionId)
+        public Requisition GetRequisition(int requisitionId, string username)
         {
             try
             {
                 var query = _reqRep.Table.Where(x => x.IsDeleted == false);
+
+                if (!string.IsNullOrEmpty(username))
+                    query = query.Where(x => x.ManagerID == username);
 
                 if (requisitionId > 0)
                     query = query.Where(x => x.Id == requisitionId);
@@ -75,9 +78,12 @@ namespace RequisitionPortal.BL.Logic
             }
         }
 
-        public IList<Requisition> GetRequisitions(int statusId)
+        public IList<Requisition> GetRequisitions(int statusId, string username)
         {
             var query = _reqRep.Table.Where(x => x.IsDeleted == false);
+
+            if (!string.IsNullOrEmpty(username))
+                query = query.Where(x => x.ManagerID == username);
 
             if (statusId > 0)
                 query = query.Where(x => x.StatusID == statusId);

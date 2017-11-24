@@ -30,17 +30,23 @@
                                         .Columns(columns =>
                                         {
                                             columns.Bound(p => p.Id).Hidden(true);
-                                            columns.Bound(p => p.Requestor);
+                                            columns.Bound(p => p.Requestor).Filterable(filterable => filterable.UI("requestorFilter"));
                                             columns.Bound(p => p.Manager).Title("Approving Manager");
-                                            columns.Bound(p => p.StatusString).Title("Status");
+                                            columns.Bound(p => p.StatusString).Title("Status").Filterable(filterable => filterable.UI("statusFilter"));
                                             columns.Bound(p => p.StatusDateString).Title("Status Date");
-                                            //if(columns.Bound(p=> p.StatusID = (int)SystemEnums.))
-                                            columns.Command(command => { command.Custom("CancelRequest").Text("Cancel Request").Click("cancelRequisition"); });
+
+                                            columns.Command(command => { command.Custom("CancelRequest").Text("Cancel Request").Click("cancelRequisition").HtmlAttributes(new { style = "background-color:maroon;color:white" }); });
+                                            columns.Command(command => { command.Custom("CompleteRequest").Text("Confirm Receipt").Click("completeRequisition").HtmlAttributes(new { style = "background-color:green;color:white" }); });
                                         })
+                                        .Filterable(f => f
+                                        .Extra(false)
+                                        .Operators(op => op
+                                        .ForString(str => str.Clear()
+                                        .IsEqualTo("Is Equal To"))))
                     .Navigatable()
                     .Selectable()
                     .Sortable()
-                    .Events(events => { events.DataBound("onDataBound"); } )
+                    .Events(events => { events.DataBound("onDataBound"); })
                 .ClientDetailTemplateId("template")
                 .DataSource(dataSource => dataSource
                 .Ajax()
@@ -65,9 +71,9 @@
             .Name("grid_#=Id#") // template expression, to be evaluated in the master context
             .Columns(columns =>
             {
-                columns.Bound(o => o.Item).Width(70);
+                columns.Bound(o => o.ItemName).Width(70);
                 columns.Bound(o => o.Quantity).Width(20);
-                columns.Bound(o => o.ChargeCode).Width(40).Title("Charge Code"); // escaped template expression, to be evaluated in the child/detail context
+                columns.Bound(o => o.ChargeCode.Code).Width(40).Title("Charge Code"); // escaped template expression, to be evaluated in the child/detail context
             })
             .DataSource(dataSource => dataSource
                 .Ajax()
@@ -82,25 +88,32 @@
 <script>
     function dataBound() {
         this.expandRow(this.tbody.find("tr.k-master-row").first());
-        
+
     }
 
-    //function onDataBound(e) {
-    //    var grid = $("#Grid").data("kendoGrid");
-    //    var gridData = grid.dataSource.view();
+    function requestorFilter(element) {
+        element.kendoDropDownList({
+            dataSource: {
+                transport: {
+                    read: "@Url.Action("FilterMenuCustomization_Requestor")"
+                }
+            },
+            optionLabel: "--Select Value--"
+        });
+    }
 
-    //    for (var i = 0; i < gridData.length; i++) {
-    //        var currentUid = gridData[i].uid;
-    //        if (gridData[i].StatusID > 1) {
-    //            var currenRow = grid.table.find("tr[data-uid='" + currentUid + "']");
-                
-    //            var cancelButton = $(currenRow).find(".k-grid-CancelRequest");
-    //            cancelButton.hide();
-    //        }
-    //    }
+    function statusFilter(element) {
+        element.kendoDropDownList({
+            dataSource: {
+                transport: {
+                    read: "@Url.Action("FilterMenuCustomization_Status")"
+                }
+            },
+            optionLabel: "--Select Value--"
+        });
+    }
 
 
-    //}
 
     function sync_handler(e) {
         this.read();

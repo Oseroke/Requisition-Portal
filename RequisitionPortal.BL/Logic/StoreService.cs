@@ -52,6 +52,25 @@ namespace RequisitionPortal.BL.Logic
             }
         }
 
+        public Item GetItem(string item)
+        {
+            var query = _itemRep.Table;
+
+            query = query.Where(x => x.IsDeleted == false);
+
+            if (!string.IsNullOrEmpty(item))
+                query = query.Where(x => x.Code == item);
+
+            try
+            {
+                return query.First();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public Item SaveItem(Item item)
         {
             try

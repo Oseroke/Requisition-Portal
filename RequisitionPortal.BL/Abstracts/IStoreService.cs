@@ -13,6 +13,8 @@ namespace RequisitionPortal.BL.Abstracts
 
         Item GetItem(int itemID);
 
+        Item GetItem(string item);
+
         Item SaveItem(Item item);
 
         IList<Vendor> GetVendors(bool includeDeleted);

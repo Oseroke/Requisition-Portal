@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Requisition_Portal.Models
 {
@@ -13,6 +14,7 @@ namespace Requisition_Portal.Models
         public RequisitionModel()
         {
             Items = new List<ReqItemModel>();
+            Managers = new List<SelectListItem>();
         }
 
         public long Id { get; set; }
@@ -20,7 +22,7 @@ namespace Requisition_Portal.Models
         public string ReqDateString {  get { return ReqDate.ToShortDateString(); } }
         public string Requestor { get; set; }
 
-        [Required(ErrorMessage="Select a manager")]
+        [Required(ErrorMessage="Select a manager"), Display(Name = "Manager: ")]
         public string Manager { get; set; }
         public string Status { get; set; }
         public int StatusID { get; set; }
@@ -28,6 +30,8 @@ namespace Requisition_Portal.Models
         public string StatusDateString { get { return StatusDate.ToShortDateString(); } }
         public int UnitID { get; set; }
         public IList<ReqItemModel> Items { get; set; }
+        public List<SelectListItem> Managers { get; set; }
+        
 
         public string StatusString
         {
@@ -51,6 +55,8 @@ namespace Requisition_Portal.Models
                         return "Manager Cancelled";
                     case 8:
                         return "Out of Stock";
+                    case 9:
+                        return "Store Officer cancelled";
 
                     default:
                         return "Unknown";

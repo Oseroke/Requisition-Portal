@@ -11,11 +11,11 @@ namespace RequisitionPortal.BL.Abstracts
     {
         Requisition SaveRequisition(Requisition requisition);
 
-        Requisition GetRequisition(int requisitionId);
+        Requisition GetRequisition(int requisitionId, string username);
 
         Requisition GetOutstandingRequisition(int requisitionId);
 
-        IList<Requisition> GetRequisitions(int statusId);
+        IList<Requisition> GetRequisitions(int statusId, string username);
 
         IList<Req_Item> GetRequisitionItems(long requisitionID);
 

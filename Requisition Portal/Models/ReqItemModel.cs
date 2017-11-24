@@ -8,23 +8,27 @@ namespace Requisition_Portal.Models
 {
     public class ReqItemModel
     {
-        //public ReqItemModel()
-        //{
-        //    ChargeCode = new ChargeCodeModel();
-        //}
+        public ReqItemModel()
+        {
+            ChargeCode = new ChargeCodeModel();
+            Item = new ItemModel();
+
+        }
 
         public int Id { get; set; }
 
-       [Required(ErrorMessage = "Select an item")]
-       public string Item { get; set; }
+       //[Required(ErrorMessage = "Select an item")]
+       public string ItemName { get; set; }
+
+       // public ItemModel ItemNew { get; set; }
 
         public string Description { get; set; }
 
         [Required(ErrorMessage = "How many?")]
         public int Quantity { get; set; }
 
-        [Required(ErrorMessage = "Select a charge code")]
-        public string ChargeCode { get; set; }
+        //[Required(ErrorMessage = "Select a charge code")]
+        //public string ChargeCode { get; set; }
 
         public string Manager { get; set; }
 
@@ -35,10 +39,12 @@ namespace Requisition_Portal.Models
         public int TemporaryID { get; set; }
         //public Item Item { get; set; }
 
-        //[UIHint("_ItemList")]
-        //public ItemModel Item { get; set; }
+        [UIHint("_ItemList")]
+        public ItemModel Item { get; set; }
 
-        //[UIHint("_ChargeCodeList")]
-        //public ChargeCodeModel ChargeCode { get; set; }
+        [UIHint("_ChargeCodeList")]
+        public ChargeCodeModel ChargeCode { get; set; }
+
+        public string cc { get { return ChargeCode.Code; } }
     }
 }

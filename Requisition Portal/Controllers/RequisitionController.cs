@@ -1,16 +1,12 @@
 ﻿using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-//using Microsoft.AspNetCore.Mvc;
-using Requisition_Portal.Helpers;
 using Requisition_Portal.Models;
 using RequisitionPortal.BL.Abstracts;
 using RequisitionPortal.BL.Entities;
-using RequisitionPortal.BL.Infrastructure;
 using RequisitionPortal.BL.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.DirectoryServices.AccountManagement;
 using System.Configuration;
@@ -25,15 +21,22 @@ namespace Requisition_Portal.Controllers
         public IStoreService _storeService;
         public ISetupService _setupService;
         public IAuditService _auditService;
+        public IEmailService _emailService;
+        public IStaffService _staffService;
         public List<ReqItemModel> Items;
+        private UserPrincipal user = UserPrincipal.Current;
+        
 
-        public RequisitionController(IRequisitionService reqService, IStoreService storeService, ISetupService setupService, IAuditService auditService)
+        public RequisitionController(IRequisitionService reqService, IStoreService storeService, ISetupService setupService, IAuditService auditService, IEmailService emailService, IStaffService staffService)
         {
             _reqService = reqService;
             _storeService = storeService;
             _setupService = setupService;
             _auditService = auditService;
+            _emailService = emailService;
+            _staffService = staffService;
             Items = new List<ReqItemModel>();
+            //username = UserPrincipal.Current.EmployeeId;
 
         }
         // GET: Requisition
@@ -57,25 +60,38 @@ namespace Requisition_Portal.Controllers
             var items = _storeService.GetItems(false, -1);
             var chargeCodes = _setupService.GetChargeCodes(false);
 
+            var staff = _staffService.GetStaffByEmpCode(false, user.EmployeeId);
+            var managers = _staffService.GetManagers(false, staff.ServLineCode);
+            var staffModel = new StaffModel();
+
+            //model.Managers.Add (new SelectListItem() { Text = "--Select Manager--", Value = "-1", Selected = true});
+            foreach (var m in managers)
+            {
+                model.Managers.Add(new SelectListItem() { Text = m.EmpName, Value = m.EmpLogin });
+            }
+
             var itemList = new List<ItemModel>();
             
             foreach (var itm in items)
             {
-                itemList.Add(new ItemModel() { Id = itm.Id, Name = itm.Name, Quantity = itm.Quantity });
+                itemList.Add(new ItemModel() { Id = itm.Id, Name = itm.Name, Quantity = itm.Quantity, Code = itm.Code });
             }
 
             var chargeCodeList = new List<ChargeCodeModel>();
 
-            foreach(var cc in chargeCodes)
+            chargeCodeList.Add(new ChargeCodeModel() { Id = -1, Code = user.EmployeeId });
+
+            foreach (var cc in chargeCodes)
             {
                 chargeCodeList.Add(new ChargeCodeModel() { Id = cc.Id, Code = cc.Code });
             }
           
             ViewData["Items"] = itemList;
+            ViewData["DefaultItem"] = itemList.FirstOrDefault();
             
             ViewData["ChargeCodes"] = chargeCodeList;
             ViewData["DefaultChargeCode"] = chargeCodeList.FirstOrDefault();
-            
+
             return View(model);
         }
 
@@ -120,34 +136,44 @@ namespace Requisition_Portal.Controllers
 
                 int count = fc.Count / 3; //3 because we have 3 columns in the table
                 string storeError = "";
+                string message = null;
 
                 if (count >= 1)
                 {
-
+                    
                     var requisition = new Requisition()
                     {
-                        Manager = fc["Manager"],
+                        ManagerID = fc["Manager"],
+                        //ManagerName = fc["Manager"],
                         ReqDate = DateTime.Today,
                         StatusDate = DateTime.Today,
                         UnitID = 1,
-                        Requestor = "150053942",
+                        RequestorID = user.Name,
+                        //RequestorName = UserPrincipal.Current.DisplayName,
                         StatusID = (int)SystemEnums.Status.AwaitingMgrApproval,
                         IsDeleted = false,
+                        SentToAccounts = false,
+                        PostedByAccounts = false,
                         Items = new List<Req_Item>()
                     };
 
+                    if (requisition.ManagerID == "-1")
+                    {
+                        TempData["Message"] = "Select a manager";
+                        return RedirectToAction("Create");
+                    }
                     for (int i = 0; i < count; i++)
                     {
                         var reqItem = new Req_Item()
                         {
-                            Item = fc["ReqItemModel[" + i + "].Item"],
+                            Item = fc["ReqItemModel[" + i + "].Item.Code"],
                             Quantity = Int32.Parse(fc["ReqItemModel[" + i + "].Quantity"]),
-                            ChargeCode = fc["ReqItemModel[" + i + "].ChargeCode"],
+                            ChargeCode = fc["ReqItemModel[" + i + "].ChargeCode.Code"],
                             IsDeleted = false,
-                            ItemNo = 1  //This one still requires modification
+                            //ItemNo = 2  //This one still requires modification
                         };
 
-                        var storeItem = _storeService.GetItem(reqItem.ItemNo);
+                        var storeItem = _storeService.GetItem(reqItem.Item);
                         if (storeItem != null)
                         {
                             if (storeItem.Quantity > reqItem.Quantity)
@@ -157,12 +183,12 @@ namespace Requisition_Portal.Controllers
                             }
                             else if (storeItem.Quantity == 0)
                             {
-                                TempData["Message"] += "The following items are not available in the store right now \n" + storeItem.Name;
+                                message += storeItem.Name + " is not available in the store right now. " ;
                                 //Log missing item
                             }
                             else if (storeItem.Quantity < reqItem.Quantity)
                             {
-                                TempData["Message"] += "The following items are not available in the store right now \n" + storeItem.Name;
+                                message += "The quantity of " + storeItem.Name + " that you ordered for is less than what is available in the store right now. " + "";
                             }
                         }
                     }
@@ -170,11 +196,11 @@ namespace Requisition_Portal.Controllers
                     if (requisition.Items.Count > 0)
                     {
                         _reqService.SaveRequisition(requisition);
-                        _auditService.LogRequisitionActivity(requisition, SystemEnums.AuditAction.MadeRequisition);
+                        
 
                         foreach (var item in requisition.Items)
                         {
-                            var storeItem = _storeService.GetItem(item.ItemNo);
+                            var storeItem = _storeService.GetItem(item.Item);
                             storeItem.Quantity -= item.Quantity;
                             try
                             {
@@ -185,41 +211,62 @@ namespace Requisition_Portal.Controllers
                                 //Log issue somewhere stating that the store record did not update
                             }
                         }
+
+                        //Log activity
+                        try
+                        {
+                            _auditService.LogRequisitionActivity(requisition, SystemEnums.AuditAction.MadeRequisition);
+                        }
+                        catch { }
+
                         //Send an email
+                        try
+                        {
+                            //_emailService.SendEmail("oseroke.igwubor@ng.kpmg.com", "New Requisition", "Test Test Test");
+                        }
+                        catch { }
+                        
                         TempData["Message"] = "Your requisition has been created Successfully ";
                         return RedirectToAction("History");
                     }
                     else
                     {
-                        TempData["Message"] += "No requisition has been made. Add at least one item.";
+                        message += " No requisition has been made. Select at least one available item. ";
+                        TempData["Message"] = message;
                         return RedirectToAction("Create");
                     }
                     
                 }
                 else
                 {
-                    TempData["Message"] += "An error occured while making your requisition. Add at least one item.";
+                    message += " An error occured while making your requisition. Add at least one item.";
+                    TempData["Message"] = message;
                     return RedirectToAction("Create");
                 }                 
 
             }
             catch
             {
-                TempData["Message"] = "An error has occured. Please try again or contact your administrator";
+                TempData["Message"] = " An error has occured. Please try again or contact your administrator";
                 return RedirectToAction("Create");
             }
         }
 
         public ActionResult Respond(int requisitionId)
         {
-            var requisition = _reqService.GetRequisition(requisitionId);
+            //var username = User.Identity.Name;
+            
+            var requisition = _reqService.GetRequisition(requisitionId, user.Name);
+
+            var manager = _staffService.GetStaffByUsername(false, requisition.ManagerID);
+            var requestor = _staffService.GetStaffByUsername(false, requisition.RequestorID);
 
             var model = new RequisitionModel()
             {
                 Id = requisition.Id,
-                Manager = requisition.Manager,
+                Manager = manager != null ? manager.EmpName : "",
                 ReqDate = requisition.ReqDate,
-                Requestor = requisition.Requestor,
+                Requestor = requestor != null ? requestor.EmpName : "",
                 StatusID = requisition.StatusID,
                 //Status = ((SystemEnums.Status)requisition.StatusID).ToString(),
                 StatusDate = requisition.StatusDate,
@@ -228,13 +275,17 @@ namespace Requisition_Portal.Controllers
 
             foreach(var item in requisition.Items)
             {
-                model.Items.Add(new ReqItemModel()
-                {
-                    Id = item.Id,
-                    Item = item.Item,
-                    ChargeCode = item.ChargeCode,
-                    Quantity = item.Quantity
-                });
+                var itmModel = new ReqItemModel();
+
+                itmModel.Id = item.Id;
+                    //Item = item.Item,
+                    //ChargeCode = item.ChargeCode,
+                itmModel.Quantity = item.Quantity;
+                itmModel.Item.Name = item.Item;
+                itmModel.ChargeCode.Code = item.ChargeCode;
+
+                model.Items.Add(itmModel);
+                
             }
 
             return View(model);// Change this to a list of outstanding approvals;
@@ -246,23 +297,26 @@ namespace Requisition_Portal.Controllers
             string buttonClicked = Request.Form["SubmitButton"];
 
             int requisitionId = Int32.Parse(fc["Id"]);
-            var requisition = _reqService.GetRequisition(requisitionId);
+            var requisition = _reqService.GetRequisition(requisitionId, user.Name);
 
             if (buttonClicked == "Approve")
             {
                 requisition.StatusID = (int)SystemEnums.Status.ManagerApproved;
                 requisition.StatusDate = DateTime.Now;
+                requisition.ManagerID = user.Name;
+                //requisition.ManagerName = UserPrincipal.Current.DisplayName;
             }
             else if(buttonClicked == "Reject")
             {
                 requisition.StatusID = (int)SystemEnums.Status.ManagerCancelled;
                 requisition.StatusDate = DateTime.Now;
-                
-                //return item to store
-                
+                requisition.ManagerID = user.Name;
+                //requisition.ManagerName = UserPrincipal.Current.DisplayName;                
+                //return item to store                
             }
 
             _reqService.SaveRequisition(requisition);
+            _auditService.LogRequisitionActivity(requisition, buttonClicked == "Approve" ? SystemEnums.AuditAction.ApprovedRequisition : SystemEnums.AuditAction.RejectedRequisition);
             //Log activity
             //Send Email
 
@@ -281,17 +335,19 @@ namespace Requisition_Portal.Controllers
 
         public ActionResult Req_Read([DataSourceRequest] DataSourceRequest request)
         {
-            var requisitions = _reqService.GetRequisitions(-1);
+            var requisitions = _reqService.GetRequisitions(-1, user.Name);
 
             var _data = new List<RequisitionModel>();
             foreach (var req in requisitions)
             {
+                var manager = _staffService.GetStaffByUsername(false, req.ManagerID);
+                var requestor = _staffService.GetStaffByUsername(false, req.RequestorID);
                 var reqModel = new RequisitionModel()
                 {
                     Id = req.Id,
-                    Manager = req.Manager,
+                    Manager = manager != null ? manager.EmpName : "",// req.ManagerName,
                     ReqDate = req.ReqDate,
-                    Requestor = req.Requestor,
+                    Requestor = requestor != null ? requestor.EmpName : "",
                     StatusID = req.StatusID,
                     //Status = ((SystemEnums.Status)(req.StatusID)).ToString(),
                     StatusDate = req.StatusDate,
@@ -303,12 +359,13 @@ namespace Requisition_Portal.Controllers
                     var reqItem = new ReqItemModel()
                     {
                         Id = itm.Id,
-                        ChargeCode = itm.ChargeCode,
+                        //ChargeCode = itm.ChargeCode,
                         Description = itm.Description,
                         Quantity = itm.Quantity,
                         RequisitionID = itm.RequisitionID
                     };
-
+                    reqItem.ItemName = _storeService.GetItem(itm.Item).Name;
+                    reqItem.ChargeCode.Code = itm.ChargeCode;
                     reqModel.Items.Add(reqItem);
                 }
 
@@ -327,7 +384,7 @@ namespace Requisition_Portal.Controllers
                 {
                     try
                     {
-                        var req = _reqService.GetRequisition(Convert.ToInt32(reqModel.Id));
+                        var req = _reqService.GetRequisition(Convert.ToInt32(reqModel.Id), user.Name);
                         req.StatusID = (int)SystemEnums.Status.AwaitingAcknowledgement;
 
                         reqModel.Status = ((SystemEnums.Status)req.StatusID).ToString();
@@ -346,12 +403,11 @@ namespace Requisition_Portal.Controllers
             return Json(results.ToDataSourceResult(request, ModelState), JsonRequestBehavior.AllowGet);
         }
 
-        //[HttpPost]
         public ActionResult CancelRequisition(int id)
         {
             try
             {
-                var requisition = _reqService.GetRequisition(id);
+                var requisition = _reqService.GetRequisition(id, user.Name);
                 requisition.StatusID = (int)SystemEnums.Status.UserCancelled;
                 requisition.StatusDate = DateTime.Now;
                 _reqService.SaveRequisition(requisition);
@@ -361,7 +417,7 @@ namespace Requisition_Portal.Controllers
                 //return item to store
                 foreach(var item in requisition.Items)
                 {
-                    var itm = _storeService.GetItem(item.ItemNo);
+                    var itm = _storeService.GetItem(item.Item);
                     itm.Quantity += item.Quantity;
                     _storeService.SaveItem(itm);
                 }
@@ -376,6 +432,28 @@ namespace Requisition_Portal.Controllers
             }
         }
 
+        public ActionResult CompleteRequisition(int id)
+        {
+            try
+            {
+                var requisition = _reqService.GetRequisition(id, user.Name);
+                requisition.StatusID = (int)SystemEnums.Status.Completed;
+                requisition.StatusDate = DateTime.Now;
+                _reqService.SaveRequisition(requisition);
+
+                _auditService.LogRequisitionActivity(requisition, SystemEnums.AuditAction.Completed);
+                                
+                return RedirectToAction("History");
+            }
+
+            catch
+            {
+
+                return View();
+            }
+        }
+
+
         public ActionResult ReadReqItems(long requisitionID, [DataSourceRequest] DataSourceRequest request)
         {
             var items = _reqService.GetRequisitionItems(requisitionID);
@@ -384,14 +462,15 @@ namespace Requisition_Portal.Controllers
 
             foreach (var item in items)
             {
-                _data.Add(new ReqItemModel()
-                {
-                    Id = item.Id,
-                    Item = item.Item,
-                    ChargeCode = item.ChargeCode,
-                    Quantity = item.Quantity,
-                    RequisitionID = item.RequisitionID
-                });
+                var itemModel = new ReqItemModel();
+                                
+                itemModel.Id = item.Id;
+                itemModel.ItemName = _storeService.GetItem(item.Item).Name;
+                itemModel.ChargeCode.Code = item.ChargeCode;
+                itemModel.Quantity = item.Quantity;
+                itemModel.RequisitionID = item.RequisitionID;
+                
+                _data.Add(itemModel);
             }
 
 
@@ -400,17 +479,19 @@ namespace Requisition_Portal.Controllers
 
         public ActionResult OutstandingReqRead([DataSourceRequest] DataSourceRequest request)
         {
-            var requisitions = _reqService.GetRequisitions((int)SystemEnums.Status.AwaitingMgrApproval);
+            var requisitions = _reqService.GetRequisitions((int)SystemEnums.Status.AwaitingMgrApproval, user.Name);
 
             var _data = new List<RequisitionModel>();
             foreach (var req in requisitions)
             {
+                var manager = _staffService.GetStaffByUsername(false, req.ManagerID);
+                var requestor = _staffService.GetStaffByUsername(false, req.RequestorID);
                 var reqModel = new RequisitionModel()
                 {
                     Id = req.Id,
-                    Manager = req.Manager,
+                    Manager = manager != null ? manager.EmpName : "",// req.ManagerName,
                     ReqDate = req.ReqDate,
-                    Requestor = req.Requestor,
+                    Requestor = requestor != null ? requestor.EmpName : "",
                     StatusID = req.StatusID,
                     //Status = ((SystemEnums.Status)(req.StatusID)).ToString(),
                     StatusDate = req.StatusDate,
@@ -419,16 +500,16 @@ namespace Requisition_Portal.Controllers
 
                 foreach (var itm in req.Items)
                 {
-                    var reqItem = new ReqItemModel()
-                    {
-                        Id = itm.Id,
-                        ChargeCode = itm.ChargeCode,
-                        Description = itm.Description,
-                        Quantity = itm.Quantity,
-                        RequisitionID = itm.RequisitionID
-                    };
+                    var itemModel = new ReqItemModel();
 
-                    reqModel.Items.Add(reqItem);
+                    itemModel.Id = itm.Id;
+                    itemModel.ChargeCode.Code = itm.ChargeCode;
+                    itemModel.Description = itm.Description;
+                    itemModel.Quantity = itm.Quantity;
+                    itemModel.RequisitionID = itm.RequisitionID;
+                    itemModel.ItemName = _storeService.GetItem(itm.Item).Name;
+
+                    reqModel.Items.Add(itemModel);
                 }
 
                 _data.Add(reqModel);
@@ -444,14 +525,16 @@ namespace Requisition_Portal.Controllers
 
             foreach (var item in items)
             {
-                _data.Add(new ReqItemModel()
-                {
-                    Id = item.Id,
-                    Item = item.Item,
-                    ChargeCode = item.ChargeCode,
-                    Quantity = item.Quantity,
-                    RequisitionID = item.RequisitionID
-                });
+                var itemModel = new ReqItemModel();
+
+
+                itemModel.Id = item.Id;
+                itemModel.ItemName = _storeService.GetItem(item.Item).Name;
+                itemModel.ChargeCode.Code = item.ChargeCode;
+                itemModel.Quantity = item.Quantity;
+                itemModel.RequisitionID = item.RequisitionID;                
+
+                _data.Add(itemModel);
             }
 
 
@@ -462,9 +545,10 @@ namespace Requisition_Portal.Controllers
         {
             try
             {
-                var requisition = _reqService.GetRequisition(id);
+                var requisition = _reqService.GetRequisition(id, user.Name);
                 requisition.StatusID = (int)SystemEnums.Status.ManagerApproved;
                 requisition.StatusDate = DateTime.Now;
+                //requisition.ManagerID = user.Name;
                 _reqService.SaveRequisition(requisition);
 
                 try
@@ -489,9 +573,10 @@ namespace Requisition_Portal.Controllers
         {
             try
             {
-                var requisition = _reqService.GetRequisition(id);
+                var requisition = _reqService.GetRequisition(id,user.Name);
                 requisition.StatusID = (int)SystemEnums.Status.ManagerCancelled;
                 requisition.StatusDate = DateTime.Now;
+                //requisition.ManagerID = user.Name
                 _reqService.SaveRequisition(requisition);
 
                 try
@@ -511,6 +596,37 @@ namespace Requisition_Portal.Controllers
             }
         }
 
-        
+        public ActionResult FilterMenuCustomization_Requestor()
+        {
+            var db = _reqService.GetRequisitions(-1, user.Name);
+            //var model = new RequisitionModel();
+
+            //foreach(var min model )
+            return Json(db.Select(e => e.RequestorID).Distinct(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult FilterMenuCustomization_Status()
+        {
+            var db = _reqService.GetRequisitions(-1, user.Name);
+            var models = new List<RequisitionModel>();
+
+            foreach (var req in db)
+            {
+                var manager = _staffService.GetStaffByUsername(false, req.ManagerID);
+                var requestor = _staffService.GetStaffByUsername(false, req.RequestorID);
+                models.Add(new RequisitionModel()
+                {
+                    Id = req.Id,
+                    Manager = manager != null ? manager.EmpName : "",
+                    ReqDate = req.ReqDate,
+                    Requestor = requestor != null ? requestor.EmpName : "",
+                    StatusID = req.StatusID,
+                    //Status = ((SystemEnums.Status)(req.StatusID)).ToString(),
+                    StatusDate = req.StatusDate
+                });
+            }
+            return Json(models.Select(e => e.StatusString).Distinct(), JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

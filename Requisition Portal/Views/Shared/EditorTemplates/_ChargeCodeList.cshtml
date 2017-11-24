@@ -5,7 +5,7 @@
 
 
 
-@(Html.Kendo().DropDownListFor(m => m)
+@*@(Html.Kendo().DropDownListFor(m => m)
         .DataValueField("Id")
         .DataTextField("Code")
                 .BindTo((System.Collections.IEnumerable)ViewData["ChargeCodes"])
@@ -14,4 +14,17 @@
                         mp.Open(x => { x.Zoom(ZoomDirection.In); });
                         mp.Close(x => { x.Zoom(ZoomDirection.Out); });
                     })
+)*@
+
+@(Html.Kendo().AutoCompleteFor(m => m)
+        //.DataValueField("Id")
+        .DataTextField("Code")
+                .BindTo((System.Collections.IEnumerable)ViewData["ChargeCodes"])
+                .Filter("contains")
+                    .Animation(mp =>
+                    {
+                        mp.Open(x => { x.Zoom(ZoomDirection.In); });
+                        mp.Close(x => { x.Zoom(ZoomDirection.Out); });
+                    })
 )
+

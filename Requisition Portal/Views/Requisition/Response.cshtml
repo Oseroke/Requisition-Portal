@@ -35,13 +35,13 @@
                                             columns.Bound(p => p.StatusString).Title("Status");
                                             columns.Bound(p => p.StatusDateString).Title("Status Date");
                                             //if(columns.Bound(p=> p.StatusID = (int)SystemEnums.))
-                                            columns.Command(command => { command.Custom("ApproveRequest").Text("Approve Requisition").Click("approveRequisition"); });
-                                            columns.Command(command => { command.Custom("RejectRequest").Text("Reject Requisition").Click("rejectRequisition"); });
+                                            columns.Command(command => { command.Custom("ApproveRequest").Text("Approve Requisition").Click("approveRequisition").HtmlAttributes(new { style = "background-color:green;color:white" }); });
+                                            columns.Command(command => { command.Custom("RejectRequest").Text("Reject Requisition").Click("rejectRequisition").HtmlAttributes(new { style = "background-color:maroon;color:white" }); });
                                         })
                     .Navigatable()
                     .Selectable()
                     .Sortable()
-                    //.Events(events => { events.DataBound("onDataBound"); })
+                //.Events(events => { events.DataBound("onDataBound"); })
                 .ClientDetailTemplateId("template")
                 .DataSource(dataSource => dataSource
                 .Ajax()
@@ -66,9 +66,9 @@
             .Name("grid_#=Id#") // template expression, to be evaluated in the master context
             .Columns(columns =>
             {
-                columns.Bound(o => o.Item).Width(70);
+                columns.Bound(o => o.ItemName).Width(70);
                 columns.Bound(o => o.Quantity).Width(20);
-                columns.Bound(o => o.ChargeCode).Width(40).Title("Charge Code"); // escaped template expression, to be evaluated in the child/detail context
+                columns.Bound(o => o.ChargeCode.Code).Width(40).Title("Charge Code"); // escaped template expression, to be evaluated in the child/detail context
             })
             .DataSource(dataSource => dataSource
                 .Ajax()

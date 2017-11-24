@@ -46,28 +46,15 @@ namespace Requisition_Portal.Infrastructure
                 .InstancePerHttpRequest();
 
 
-            //builder.RegisterType<MemoryCacheManager>().As<ICacheManager>().InstancePerHttpRequest();
 
             builder.RegisterGeneric(typeof(NHibernateRepository<,>)).As(typeof(IRepository<,>)).InstancePerLifetimeScope();
 
             builder.RegisterType<RequisitionService>().As<IRequisitionService>().InstancePerHttpRequest();
             builder.RegisterType<StoreService>().As<IStoreService>().InstancePerHttpRequest();
             builder.RegisterType<SetupService>().As<ISetupService>().InstancePerHttpRequest();
-            // builder.RegisterType<AutoMapperStartupTask>().Named<IStartupTask>("AutoMapper").InstancePerDependency();
-
-            //builder.RegisterType<AsyncService>().As<IAsyncRunner>().InstancePerLifetimeScope();
-
-            //builder.RegisterType<SetupService>().As<ISetupService>().InstancePerHttpRequest();
-            //builder.RegisterType<DateTimeHelper>().As<IDateTimeHelper>().InstancePerLifetimeScope();
-            //builder.RegisterType<FileService>().As<IFileService>().InstancePerLifetimeScope();
-            //builder.RegisterType<AuthenticationService>().As<IAuthenticationService>().InstancePerHttpRequest();
-
-            //builder.RegisterType<UserService>().As<IUserService>().InstancePerHttpRequest();
-            //builder.RegisterType<WebWorker>().As<IWebWorker>().InstancePerHttpRequest();
-            //builder.RegisterType<EmailSender>().As<IEmailSender>().InstancePerHttpRequest();
-
-            //builder.RegisterType<EmailAccount>().As<IEmailAccount>().InstancePerHttpRequest();
-            //builder.RegisterType<UtilityService>().As<IUtilityService>().InstancePerHttpRequest();
+           
+            builder.RegisterType<EmailService>().As<IEmailService>().InstancePerHttpRequest();
+            builder.RegisterType<StaffService>().As<IStaffService>().InstancePerHttpRequest();
 
             builder.RegisterType<AuditService>().As<IAuditService>().InstancePerHttpRequest();
 

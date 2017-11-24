@@ -9,8 +9,10 @@ namespace RequisitionPortal.BL.Entities
     public class Requisition: BaseEntity<long>
     {
         public virtual DateTime ReqDate { get; set; }
-        public virtual string Requestor { get; set; }
-        public virtual string Manager { get; set; }
+        public virtual string RequestorID { get; set; }
+        //public virtual string RequestorName { get; set; }
+        public virtual string ManagerID { get; set; }
+        //public virtual string ManagerName { get; set; }
         //public virtual Status Status { get; set; }
         public virtual int StatusID { get; set; }
         public virtual DateTime StatusDate { get; set; }
@@ -28,8 +30,10 @@ namespace RequisitionPortal.BL.Entities
             this.Table("Requisitions");
             this.Id<long>(x => x.Id, mp => { mp.Column("Id"); mp.Generator(Generators.Native); });
             this.Property<DateTime>(x => x.ReqDate, mp => { mp.Column("ReqDate"); });
-            this.Property<string>(x => x.Requestor, mp => { mp.Column("Requestor"); });
-            this.Property<string>(x => x.Manager, mp => { mp.Column("Manager"); });
+            this.Property<string>(x => x.RequestorID, mp => { mp.Column("RequestorID"); });
+            this.Property<string>(x => x.ManagerID, mp => { mp.Column("ManagerID"); });
+            //this.Property<string>(x => x.RequestorName, mp => { mp.Column("RequestorName"); });
+            //this.Property<string>(x => x.ManagerName, mp => { mp.Column("ManagerName"); });
             this.Property<int>(x => x.UnitID, mp => { mp.Column("UnitID"); });
             this.Property<int>(x => x.StatusID, mp => { mp.Column("StatusID"); });
             this.Property<DateTime>(x => x.StatusDate, mp => { mp.Column("StatusDate"); });

@@ -31,24 +31,39 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     @Html.LabelFor(model => model.Manager)
-    @Html.EditorFor(model => model.Manager, new { htmlAttributes = new { @class = "form-control" } });
-    @Html.ValidationMessageFor(model => model.Manager, "", new { @class = "text-danger" })
+    @*@Html.DropDownListFor(model => model.Manager, Model.Managers, new { htmlAttributes = new { @class = "form-control" } });
+    @Html.ValidationMessageFor(model => model.Manager, "", new { @class = "text-danger" })*@
+
+    @(Html.Kendo().DropDownListFor(m => m.Manager)
+        .DataValueField("Value")
+        .DataTextField("Text")
+                .BindTo((System.Collections.IEnumerable)Model.Managers)
+                    .Animation(mp =>
+                    {
+                        mp.Open(x => { x.Zoom(ZoomDirection.In); });
+                        mp.Close(x => { x.Zoom(ZoomDirection.Out); });
+                    })
+    )
+
 
 @(Html.Kendo().Grid(Model.Items)
                                 .Name("Grid")
                                 .Columns(columns =>
                                 {
-                                    //columns.Bound(p => p.Item).EditorTemplateName("_ItemList");
-                                    columns.Bound(p => p.Item).ClientTemplate("#= Item #" +
-                       "<input type='hidden' name='ReqItemModel[#= index(data)#].Item' value='#= Item #' />");
+                                    columns.Bound(p => p.Item).ClientTemplate("#= Item.Name #" +
+                                        "<input type='hidden' name='ReqItemModel[#= index(data)#].Item.Code' value='#= Item.Code #' />");
                                     columns.Bound(p => p.Quantity).ClientTemplate("#= Quantity #" +
-                       "<input type='hidden' name='ReqItemModel[#= index(data)#].Quantity' value='#= Quantity #' />");
-                                    columns.Bound(p => p.ChargeCode).ClientTemplate("#= ChargeCode #" +
-                       "<input type='hidden' name='ReqItemModel[#= index(data)#].ChargeCode' value='#= ChargeCode #' />").Title("Charge Code");
-                                   //columns.Bound(p => p.ChargeCode).EditorTemplateName("_ChargeCodeList").ClientTemplate("#= ChargeCode.Code #" +
-                                     //     "<input type='hidden' name='ReqItemModel[#= index(data)#].ChargeCode.Id' value='#= ChargeCode.Id #' />").Title("Charge Code");
+                                        "<input type='hidden' name='ReqItemModel[#= index(data)#].Quantity' value='#= Quantity #' />");
+                                    columns.Bound(p => p.ChargeCode).ClientTemplate("#= ChargeCode.Code #" +
+                                         "<input type='hidden' name='ReqItemModel[#= index(data)#].ChargeCode.Code' value='#= ChargeCode.Code #' />").Title("Charge Code");
 
                                     columns.Command(command => { command.Destroy(); });
+
+                                    //columns.Bound(p => p.Item).ClientTemplate("#= Item.Name #" +
+                                    //     "<input type='hidden' name='ReqItemModel[#= index(data)#].Item.Code' value='#= Item.Code #' />");
+
+
+
                                 })
                 .ToolBar(toolbar =>
                 {
@@ -74,8 +89,11 @@
                     //model.Field(p => p.Id);
                     //model.Field(p => p.Name).Editable(true);
                     model.Field(p => p.ChargeCode).DefaultValue(
-             ViewData["DefaultChargeCode"] as Requisition_Portal.Models.ReqItemModel);
+             ViewData["DefaultChargeCode"] as Requisition_Portal.Models.ChargeCodeModel);
                     //model.Field(p => p.Quantity).Editable(true);
+
+                    model.Field(p => p.Item).DefaultValue(
+                        ViewData["DefaultItem"] as Requisition_Portal.Models.ItemModel);
                 })
                 .Create("Item_Create", "Requisition")
                 .Read("Item_Read", "Requisition")
@@ -84,10 +102,10 @@
         )
 
 )
-
+    <br/>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Submit for Manager Approval" class="btn btn-default" />
+            <input type="submit" value="Submit for Manager Approval" class="btn btn-success" />
         </div>
     </div>
     
