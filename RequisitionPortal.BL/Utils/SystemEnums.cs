@@ -17,7 +17,8 @@ namespace RequisitionPortal.BL.Utils
             Completed = 5,
             UserCancelled = 6,
             ManagerCancelled = 7,
-            OutofStock = 8
+            OutofStock = 8,
+            StoreCancelled = 9
         }
 
         public enum AuditAction
@@ -29,7 +30,8 @@ namespace RequisitionPortal.BL.Utils
             AcknowledgedReceipt = 5,
             RejectedRequisition = 6,
             CancelledRequisition = 7,
-            Completed = 8
+            Completed = 8,
+            StoreCancelledRequisition = 9
         }
                 
     }
