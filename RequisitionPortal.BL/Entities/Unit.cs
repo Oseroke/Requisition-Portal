@@ -14,6 +14,7 @@ namespace RequisitionPortal.BL.Entities
         public virtual string Grp { get; set; }
         public virtual string Division { get; set; }
         public virtual string ServLineCode { get; set; }
+        public virtual bool IsDeleted { get; set; }
     }
 
     public class UnitMap: ClassMapping<Unit>
@@ -27,7 +28,7 @@ namespace RequisitionPortal.BL.Entities
             this.Property<string>(x => x.Grp, mp => { mp.Column("Grp"); });
             this.Property<string>(x => x.Division, mp => { mp.Column("Division"); });
             this.Property<string>(x => x.ServLineCode, mp => { mp.Column("ServLineCode"); });
-
+            this.Property<bool>(x => x.IsDeleted, mp => { mp.Column("IsDeleted"); });
         }
     }
 

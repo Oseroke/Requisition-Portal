@@ -1,0 +1,47 @@
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\ApplicationInsights.config
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Requisition Portal.Tests.dll.config
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Requisition Portal.Tests.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Requisition Portal.Tests.pdb
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Newtonsoft.Json.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Requisition Portal.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\System.Web.Helpers.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\System.Web.Mvc.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\System.Web.Razor.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\System.Web.WebPages.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\System.Web.Optimization.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Autofac.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\RequisitionPortal.BL.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Kendo.Mvc.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Autofac.Integration.Mvc.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\NHibernate.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Iesi.Collections.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Requisition Portal.pdb
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Requisition Portal.dll.config
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Newtonsoft.Json.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\System.Web.Helpers.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\System.Web.Mvc.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\System.Web.Razor.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\System.Web.WebPages.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\System.Web.Optimization.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Autofac.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\RequisitionPortal.BL.pdb
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\RequisitionPortal.BL.dll.config
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Autofac.Integration.Mvc.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\NHibernate.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\bin\Debug\Iesi.Collections.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\obj\Debug\Requisition Portal.Tests.csprojResolveAssemblyReference.cache
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\obj\Debug\Requisition Portal.Tests.csproj.CoreCompileInputs.cache
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\obj\Debug\Requisition Portal.Tests.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\Requisition Portal.Tests\obj\Debug\Requisition Portal.Tests.pdb

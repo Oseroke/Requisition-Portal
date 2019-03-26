@@ -15,5 +15,7 @@ namespace RequisitionPortal.BL.Abstracts
         IList<Staff> GetAllStaff(bool isDeleted);
         IList<Staff> GetManagers(bool isDeleted, string servLine);
         IList<Staff> GetManagers(bool isDeleted, Staff staff);
+        User GetUserByUsername(bool isDeleted, string username);
+        IList<User> GetManagersByDepartment(bool isDeleted, string department);
     }
 }

@@ -33,34 +33,52 @@ namespace RequisitionPortal.BL.Logic
 
             if (auditAction == SystemEnums.AuditAction.MadeRequisition)
             {
-                trail.Details = requisition.Requestor + " made a requisition " + requisition.Id;
+                trail.Details = requisition.RequestorID + " made a requisition " + requisition.Id;
             }
             else if(auditAction == SystemEnums.AuditAction.CancelledRequisition)
             {
-                trail.Details = requisition.Requestor + " cancelled a requisition " + requisition.Id;
+                trail.Details = requisition.RequestorID + " cancelled a requisition " + requisition.Id;
             }
             else if (auditAction == SystemEnums.AuditAction.ApprovedRequisition)
             {
-                trail.Details = requisition.Manager + " approved a requisition " + +requisition.Id;
+                trail.Details = requisition.ManagerID + " approved a requisition " + +requisition.Id;
             }
             else if (auditAction == SystemEnums.AuditAction.RejectedRequisition)
             {
-                trail.Details = requisition.Manager + " rejected a requisition " + +requisition.Id + " made by " + requisition.Requestor;
+                trail.Details = requisition.ManagerID + " rejected a requisition " + +requisition.Id + " made by " + requisition.RequestorID;
             }
             else if (auditAction == SystemEnums.AuditAction.GivenOutItems)
             {
-                trail.Details = "Store officer gave out items requested by " + requisition.Requestor + " on Requisition " + requisition.Id ;
+                trail.Details = "Store officer gave out items requested by " + requisition.RequestorID + " on Requisition " + requisition.Id ;
             }
             else if(auditAction==SystemEnums.AuditAction.AcknowledgedReceipt)
             {
-                trail.Details = requisition.Requestor + " acknowledged receipt of items collected from the store. Requisition" + requisition.Id;
+                trail.Details = requisition.RequestorID + " acknowledged receipt of items collected from the store. Requisition" + requisition.Id;
             }
             else if (auditAction == SystemEnums.AuditAction.Completed)
             {
                 trail.Details = "Requisition " + requisition.Id + " completed";
             }
+            else if (auditAction == SystemEnums.AuditAction.StoreCancelledRequisition)
+            {
+                trail.Details = "Requisition " + requisition.Id + " declined by the store.";
+            }
+            else
+            {
+                trail.Details = "An action occured for requisition " + requisition.Id;
+            }
 
             _auditRep.SaveOrUpdate(trail);
+        }
+
+        public IList<AuditTrail> GetAuditTrails(int actionId)
+        {
+            var query = _auditRep.Table;
+
+            if (actionId > 0)
+                query = query.Where(x => x.AuditActionId == actionId);
+
+            return query.ToList();
         }
         
     }

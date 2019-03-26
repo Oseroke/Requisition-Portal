@@ -28,6 +28,12 @@ namespace RequisitionPortal.BL.Abstracts
         void ExecuteStoredProcedureUpdate(string StoredName, params object[] parameters);
 
         DataTable ExecuteStoredProcedureSelectDataTable(string StoreProcedureName, params object[] parameters);
+
+        //static object ToType<T>(this object obj, T type);
+
+        //static object ToNonAnonymousList<T>(this List<T> list, Type t);
+
+        
     }
 
 }

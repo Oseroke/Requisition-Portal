@@ -1,0 +1,62 @@
+﻿@model RequisitionPortal.Models.RequisitionModel
+
+@{
+    ViewBag.Title = "Respond";
+}
+
+<p class="nav navbar-text navbar-right">
+    @Html.ActionLink("Return to List", "Requisitions")
+</p>
+<h2>Respond</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.Id);
+
+    
+    <text>This requisition made by @Html.ValueFor(model => model.Requestor) and approved by @Html.ValueFor(model => model.Manager) needs to be picked up.    </text>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Item")
+            </th>
+            <th>
+                @Html.DisplayName("Quantity")
+            </th>
+            <th>
+                @Html.DisplayName("Charge Code")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChargeCode.Code)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+    <br />
+    
+    <div class="form-group">
+        <div class=" col-md-10">
+            <input name="SubmitButton" type="submit" value="Complete" class="btn btn-primary" />
+            <input name="SubmitButton" type="submit" value="Decline" class="btn btn-danger" />
+        </div>
+    </div>
+    <br /><br />
+}

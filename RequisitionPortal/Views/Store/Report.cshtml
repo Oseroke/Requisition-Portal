@@ -1,0 +1,119 @@
+﻿@model RequisitionPortal.Models.RequisitionModel
+    @using Kendo.Mvc.UI
+    @{
+        ViewBag.Title = "Report";
+    }
+<script src="@Url.Content("~/Scripts/jquery-ui.min.js")"></script>
+
+    <script type="text/javascript">
+
+    @if(TempData["Message"] != null) {<text>
+            $(window).load(function()
+                {
+                $(document).ready(function()
+                {
+                     $("#myModal").modal("show")
+                });
+            }); </text>
+    }
+    </script>
+
+    <h2>Report</h2>
+
+    @using (Html.BeginForm())
+    {        
+        <div class="form-group col-md-12">
+            @Html.Label("Start Date", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.Label("End Date", htmlAttributes: new { @class = "control-label col-md-3" })
+            @Html.Label("Unit", htmlAttributes: new { @class = "control-label col-md-3" })
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.StartDate, String.Format("{0:d}", DateTime.Today.ToShortDateString()), new { htmlAttributes = new { @class = "form-control date-picker" } })
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                
+            </div>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.EndDate, String.Format("{0:d}", DateTime.Today.ToShortDateString()), new { htmlAttributes = new { @class = "form-control date-picker" } })
+                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                                
+            </div>
+            <div class="col-md-3">
+                @Html.DropDownList("ddlUnit", ((System.Collections.IEnumerable)ViewData["Units"] as IEnumerable<SelectListItem>), new { @class = "form-control" })
+
+
+            </div>
+        </div>
+
+        <br />
+
+
+        <hr />
+        <div class="form-group col-md-12 right">
+            <input name="SubmitButton" type="submit" value="Search" class="btn btn-primary pull-right" />
+            <input name="SubmitButton" type="submit" value="Print" class="btn btn-primary pull-right" />
+
+        </div>
+        <br />
+
+        @(Html.Kendo().Grid(Model.ReportModels)
+                        .Columns(columns =>
+                        {
+                            columns.Bound(o => o.StatusDateString).Title("Status Date");
+                            columns.Bound(o => o.Name);
+                            columns.Bound(o => o.Quantity);
+                            columns.Bound(o => o.UnitPrice).Format("{0:0,00.##}").Title("Unit Price");
+                            columns.Bound(o => o.Amount).Format("{0:0,00.##}");
+                            columns.Bound(o => o.ChargeCode).Title("Charge Code");
+                            columns.Bound(o => o.Requestor);
+                            columns.Bound(o => o.Manager);
+
+                        })
+                        .Navigatable()
+                        .Selectable()
+                        .Sortable()
+                        .Pageable()
+                    .DataSource(dataSource => dataSource
+                    .Ajax()
+                    .Batch(true)
+                    .PageSize(20)
+                    .ServerOperation(false)
+                    .Events(events => { events.Error("error_handler"); events.RequestEnd("onRequestEnd"); })
+                    .Model(model =>
+                    {
+                        model.Id(p => p.Id);
+                    })
+                    .Read(read => read.Action("ReqItem_Read", "Store"))
+            )
+
+        )
+    }
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header cus-color">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color:white">Info</h4>
+            </div>
+            <div class="modal-body">
+                <p>@TempData["Message"]</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Code to wire up your DatePicker -->
+<script type="text/javascript">
+    $(function () {
+        // This will make every element with the class "date-picker" into a DatePicker element
+        $('.date-picker').datepicker();
+    })
+</script>

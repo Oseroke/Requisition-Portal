@@ -11,10 +11,12 @@ namespace RequisitionPortal.BL.Logic
     public class StaffService : IStaffService
     {
         private readonly IRepository<Staff, int> _staffRep;
+        private readonly IRepository<User, int> _userRep;
 
-        public StaffService(IRepository<Staff, int> staffRep)
+        public StaffService(IRepository<Staff, int> staffRep, IRepository<User, int> userRep)
         {
             _staffRep = staffRep;
+            _userRep = userRep;
         }
         
         public Staff GetStaffByEmpCode(bool isDeleted, string empCode)
@@ -96,7 +98,7 @@ namespace RequisitionPortal.BL.Logic
 
             try
             {
-                return query.ToList();
+                return query.OrderBy(x=>x.EmpSurname).ToList();
             }
             catch
             {
@@ -115,12 +117,54 @@ namespace RequisitionPortal.BL.Logic
 
             try
             {
-                return query.ToList();
+                return query.OrderBy(x => x.EmpSurname).ToList();
             }
             catch
             {
                 return null;
             }
+        }
+
+        public User GetUserByUsername(bool isDeleted, string username)
+        {
+            var query = _userRep.Table.Where(x => x.IsDeleted == isDeleted);
+
+            if (!string.IsNullOrEmpty(username))
+            {
+                query = query.Where(x => x.Username == username);
+            }
+
+            try
+            {
+                return query.FirstOrDefault();
+            }
+            catch
+            {
+                return null;
+            }
+
+        }
+
+        public IList<User> GetManagersByDepartment(bool isDeleted, string department)
+        {
+            var query = _userRep.Table.Where(x => x.IsDeleted == isDeleted);
+
+            if (!string.IsNullOrEmpty(department))
+            {
+                query = query.Where(x => x.Department == department);
+            }
+
+            query = query.Where(x => x.JobTitle.Contains("Manager") || x.JobTitle.Contains("Supervisor") || x.JobTitle.Contains("Director") || x.JobTitle.Contains("Partner"));
+
+            try
+            {
+                return query.OrderBy(x => x.LastName).ToList();
+            }
+            catch
+            {
+                return null;
+            }
+
         }
     }
 }

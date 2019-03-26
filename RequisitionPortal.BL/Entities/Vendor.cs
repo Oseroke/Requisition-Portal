@@ -12,9 +12,16 @@ namespace RequisitionPortal.BL.Entities
     {
         public virtual string VendorUID { get; set; }
         public virtual string Name { get; set; }
-        public virtual string Address { get; set; }
-        public virtual string PhoneNumber { get; set; }
-        public virtual string ContactPerson { get; set; }
+        public virtual string AddressLine1 { get; set; }
+        public virtual string AddressLine2 { get; set; }
+        public virtual string CitySTZip { get; set; }
+        public virtual string Contact { get; set; }
+        public virtual string Telephone1 { get; set; }
+        public virtual string Telephone2 { get; set; }
+        public virtual string FaxNumber { get; set; }
+        public virtual string TaxIDNo { get; set; }
+        public virtual string Terms { get; set; }
+        public virtual DateTime? VendSince { get; set; }
         public virtual string Email { get; set; }
     }
 
@@ -27,9 +34,16 @@ namespace RequisitionPortal.BL.Entities
             this.Id<int>(x => x.Id, mp => { mp.Column("Id"); mp.Generator(Generators.Native); });
             this.Property<string>(x => x.VendorUID, mp => { mp.Column("VendorUID"); });
             this.Property<string>(x => x.Name, mp => { mp.Column("Name"); });
-            this.Property<string>(x => x.Address, mp => { mp.Column("Address"); });
-            this.Property<string>(x => x.PhoneNumber, mp => { mp.Column("PhoneNumber"); });
-            this.Property<string>(x => x.ContactPerson, mp => { mp.Column("ContactPerson"); });
+            this.Property<string>(x => x.AddressLine1, mp => { mp.Column("AddressLine1"); });
+            this.Property<string>(x => x.AddressLine2, mp => { mp.Column("AddressLine2"); });
+            this.Property<string>(x => x.CitySTZip, mp => { mp.Column("CitySTZip"); });
+            this.Property<string>(x => x.Telephone1, mp => { mp.Column("Telephone1"); });
+            this.Property<string>(x => x.Telephone2, mp => { mp.Column("Telephone2"); });
+            this.Property<string>(x => x.TaxIDNo, mp => { mp.Column("TaxIDNo"); });
+            this.Property<string>(x => x.Terms, mp => { mp.Column("Terms"); });
+            this.Property<string>(x => x.FaxNumber, mp => { mp.Column("FaxNumber"); });
+            this.Property<DateTime?>(x => x.VendSince, mp => { mp.Column("VendSince"); });
+            this.Property<string>(x => x.Contact, mp => { mp.Column("Contact"); });
             this.Property<string>(x => x.Email, mp => { mp.Column("Email"); });
             this.Property<bool>(x => x.IsDeleted, mp => { mp.Column("IsDeleted"); });
 

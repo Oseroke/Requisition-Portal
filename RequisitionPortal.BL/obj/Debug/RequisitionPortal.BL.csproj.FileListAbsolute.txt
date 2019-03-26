@@ -1,0 +1,69 @@
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\RequisitionPortal.BL.dll.config
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\RequisitionPortal.BL.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\RequisitionPortal.BL.pdb
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\Autofac.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\Autofac.Integration.Mvc.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\Iesi.Collections.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\NHibernate.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\NPOI.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\NPOI.OOXML.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\NPOI.OpenXml4Net.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\NPOI.OpenXmlFormats.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\System.Web.Helpers.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\System.Web.Mvc.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\System.Web.Razor.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\System.Web.WebPages.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\Autofac.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\Autofac.Integration.Mvc.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\Iesi.Collections.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\NHibernate.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\NPOI.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\System.Web.Helpers.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\System.Web.Mvc.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\System.Web.Razor.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\System.Web.WebPages.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\obj\Debug\RequisitionPortal.BL.csproj.ResolveComReference.cache
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\obj\Debug\RequisitionPortal.BL.csproj.CoreCompileInputs.cache
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\obj\Debug\RequisitionPortal.BL.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\obj\Debug\RequisitionPortal.BL.pdb
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\obj\Debug\RequisitionPortal.BL.csprojResolveAssemblyReference.cache
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\RequisitionPortal.BL.dll.config
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\RequisitionPortal.BL.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\RequisitionPortal.BL.pdb
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\Autofac.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\Autofac.Integration.Mvc.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\Iesi.Collections.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\NHibernate.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\NPOI.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\NPOI.OOXML.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\NPOI.OpenXml4Net.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\NPOI.OpenXmlFormats.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\System.Web.Helpers.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\System.Web.Mvc.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\System.Web.Razor.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\System.Web.WebPages.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\Autofac.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\Autofac.Integration.Mvc.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\Iesi.Collections.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\NHibernate.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\NPOI.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\System.Web.Helpers.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\System.Web.Mvc.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\System.Web.Razor.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\System.Web.WebPages.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\obj\Debug\RequisitionPortal.BL.csprojResolveAssemblyReference.cache
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\obj\Debug\RequisitionPortal.BL.csproj.ResolveComReference.cache
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\obj\Debug\RequisitionPortal.BL.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\obj\Debug\RequisitionPortal.BL.pdb

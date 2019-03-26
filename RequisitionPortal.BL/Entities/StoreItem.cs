@@ -11,14 +11,17 @@ namespace RequisitionPortal.BL.Entities
     public class StoreItem: BaseEntity<int>
     {
         public virtual int ItemID { get; set; }
-        //public virtual string Code { get; set; }
         public virtual int Quantity { get; set; }
         public virtual decimal UnitPrice { get; set; }
-        public virtual DateTime Date { get; set; }
+        public virtual decimal Amount { get; set; }
+        public virtual string Code { get; set; }
+        public virtual DateTime PODate { get; set; }
+        public virtual DateTime? InvDate { get; set; }
         public virtual int VendorID { get; set; }
         public virtual string PONumber { get; set; }
         public virtual string InvoiceNumber { get; set; }
-        public virtual decimal Amount { get; set; }
+        public virtual int StatusID { get; set; }
+        public virtual string Description { get; set; }
     }
 
     public class StoreItemMap: ClassMapping<StoreItem>
@@ -32,10 +35,14 @@ namespace RequisitionPortal.BL.Entities
             this.Property<decimal>(x => x.UnitPrice, mp => { mp.Column("UnitPrice"); });
             this.Property<int>(x => x.Quantity, mp => { mp.Column("Quantity"); });
             this.Property<decimal>(x => x.Amount, mp => { mp.Column("Amount"); });
+            this.Property<string>(x => x.Code, mp => { mp.Column("Code"); });
             this.Property<int>(x => x.VendorID, mp => { mp.Column("VendorID"); });
-            this.Property<DateTime>(x => x.Date, mp => { mp.Column("Date"); });
+            this.Property<DateTime>(x => x.PODate, mp => { mp.Column("PODate"); });
+            this.Property<DateTime?>(x => x.InvDate, mp => { mp.Column("InvDate"); });
             this.Property<string>(x => x.PONumber, mp => { mp.Column("PONumber"); });
             this.Property<string>(x => x.InvoiceNumber, mp => { mp.Column("InvoiceNumber"); });
+            this.Property<int>(x => x.StatusID, mp => { mp.Column("StatusID"); });
+            this.Property<string>(x => x.Description, mp => { mp.Column("Description"); });
 
         }
     }

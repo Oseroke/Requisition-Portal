@@ -1,0 +1,72 @@
+﻿@model RequisitionPortal.Models.RequisitionModel
+
+@{
+    ViewBag.Title = "Respond";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p class="nav navbar-text navbar-right">
+    @Html.ActionLink("Return to List", "Response")
+</p>
+<br /><br />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.LabelFor(model => model.Manager)
+    @Html.EditorFor(model => model.Manager, new { htmlAttributes = new { @class = "form-control" } });
+    @Html.ValidationMessageFor(model => model.Manager, "", new { @class = "text-danger" })*@
+    @Html.HiddenFor(model => model.Id);
+
+    @*@Html.Label("Dear ")@:&nbsp; @Html.ValueFor(model => model.Manager)
+    @Html.Label(", this requisition made by ")@:&nbsp;@Html.ValueFor(model=>model.Requestor)<text>&nbsp;</text>@Html.Label("requires your approval")*@
+    <text>Dear @Html.ValueFor(model => model.Manager),&nbsp;this requisition made by @Html.ValueFor(model => model.Requestor) requires your approval.    </text>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Item")
+            </th>
+            <th>
+                @Html.DisplayName("Quantity")
+            </th>
+            <th>
+                @Html.DisplayName("Charge Code")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChargeCode.Code)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+   
+    <br />
+    @(Html.Label("Add a comment"))
+    <div class="form-group">
+        @(Html.TextAreaFor(m=>m.Description, 5, 100, new { }))
+    </div>
+
+    <div class="form-group">
+        <div class=" col-md-10">
+            <input name="SubmitButton" type="submit" value="Approve" class="btn btn-primary" />
+            <input name="SubmitButton" type="submit" value="Reject" class="btn btn-danger" />
+        </div>
+    </div>
+    <br /><br />
+}

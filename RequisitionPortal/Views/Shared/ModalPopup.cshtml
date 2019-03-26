@@ -1,0 +1,74 @@
+﻿@using RequisitionPortal.Helpers
+@model RequisitionPortal.Models.PopupModel
+
+<a href="#" class="btn btn-primary btn-large popup">Popup &raquo;</a>
+
+<!-- This hidden field can be used to save the currenly selected item -->
+<input type="hidden" id="currentID" />
+
+<!-- Any additional HTML will be injected here later -->
+
+
+<script type="text/javascript" language="javascript">
+
+    var dialog;
+
+    function showMessageDialog() {
+
+        dialog = $("#@Model.ID");
+
+        //build up the title bar
+        var xTitle = '<table cellpadding="2" cellspacing="0" width="100%">' +
+                        '<tr>' +
+                            '<td vAlign="middle" style="width: 30px;">' +
+                                '@Html.Raw(Model.ImageHTML)' +
+                            '</td>' +
+                            '<td style="font-size: small;" vAlign="middle">' +
+                                '@Model.Title' +
+                            '</td>' +
+                        '</tr>' +
+                    '</table>';
+
+        dialog.dialog({ minWidth: @Model.Width,
+            minHeight: @Model.Height,
+            draggable: @Model.Draggable.ToString().ToLower(),
+            resizable: @Model.Resizable.ToString().ToLower(),
+            modal: true,
+            title: ''
+        })
+        //have to add the title HTML like this due to new Jqery.UI version changes
+        .dialog('widget').find('.ui-dialog-title').html(xTitle);
+
+        //decide which type of action we want to take when the user clicks the OK button
+        var buttonSet = '@Model.PopupButtonSet';
+        switch (buttonSet)
+        {
+            case 'Ok': // display 'ok': just close the modal dialog
+                dialog.dialog('option' , 'buttons' , { "Ok": function () { $(this).dialog("close"); } } );
+                break;
+
+            case 'Close': //display 'close': just close the modal dialog
+                dialog.dialog('option' , 'buttons' , { "Close": function () { $(this).dialog("close"); } } );
+                break;
+
+            case 'OkPostback': //display 'ok': invoke a post back
+                dialog.dialog('option' , 'buttons' , { "Ok": function () { @Model.ClientFunction } } );
+                break;
+
+            case 'OkPostbackClose': //display 'ok' and 'close': 'ok' will invoke a post back
+                dialog.dialog('option' , 'buttons' , { "Ok": function () { @Model.ClientFunction }, "Close": function () { $(this).dialog("close"); } } );
+                break;
+        }
+
+    }
+
+    function closeMessageDialog() {
+        if (dialog != null)
+        {
+            dialog.dialog("close");
+        }
+    }
+
+
+
+</script>

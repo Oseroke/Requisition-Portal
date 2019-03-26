@@ -11,5 +11,6 @@ namespace RequisitionPortal.BL.Abstracts
     public interface IAuditService
     {
         void LogRequisitionActivity(Requisition requisition, SystemEnums.AuditAction auditAction);
+        IList<AuditTrail> GetAuditTrails(int actionId);
     }
 }

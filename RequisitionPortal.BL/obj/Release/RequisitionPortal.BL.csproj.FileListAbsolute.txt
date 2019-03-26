@@ -1,0 +1,68 @@
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\RequisitionPortal.BL.dll.config
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\RequisitionPortal.BL.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\RequisitionPortal.BL.pdb
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\Autofac.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\Autofac.Integration.Mvc.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\ICSharpCode.SharpZipLib.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\Iesi.Collections.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\Microsoft.Web.Infrastructure.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\NHibernate.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\NPOI.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\NPOI.OOXML.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\NPOI.OpenXml4Net.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\NPOI.OpenXmlFormats.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\System.Web.Helpers.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\System.Web.Mvc.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\System.Web.Razor.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\System.Web.WebPages.Deployment.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\System.Web.WebPages.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\System.Web.WebPages.Razor.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\Autofac.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\Autofac.Integration.Mvc.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\Iesi.Collections.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\NHibernate.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\NPOI.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\System.Web.Helpers.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\System.Web.Mvc.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\System.Web.Razor.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\System.Web.WebPages.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\System.Web.WebPages.Deployment.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\bin\Release\System.Web.WebPages.Razor.xml
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\obj\Release\RequisitionPortal.BL.csproj.ResolveComReference.cache
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\obj\Release\RequisitionPortal.BL.csproj.CoreCompileInputs.cache
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\obj\Release\RequisitionPortal.BL.dll
+C:\Users\oigwubor\source\repos\Requisition Portal\RequisitionPortal.BL\obj\Release\RequisitionPortal.BL.pdb
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\RequisitionPortal.BL.dll.config
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\RequisitionPortal.BL.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\RequisitionPortal.BL.pdb
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\Autofac.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\Autofac.Integration.Mvc.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\ICSharpCode.SharpZipLib.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\Iesi.Collections.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\Microsoft.Web.Infrastructure.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\NHibernate.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\NPOI.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\NPOI.OOXML.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\NPOI.OpenXml4Net.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\NPOI.OpenXmlFormats.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\System.Web.Helpers.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\System.Web.Mvc.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\System.Web.Razor.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\System.Web.WebPages.Deployment.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\System.Web.WebPages.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\System.Web.WebPages.Razor.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\Autofac.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\Autofac.Integration.Mvc.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\Iesi.Collections.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\NHibernate.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\NPOI.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\System.Web.Helpers.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\System.Web.Mvc.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\System.Web.Razor.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\System.Web.WebPages.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\System.Web.WebPages.Deployment.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\bin\Release\System.Web.WebPages.Razor.xml
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\obj\Release\RequisitionPortal.BL.csproj.ResolveComReference.cache
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\obj\Release\RequisitionPortal.BL.csproj.CoreCompileInputs.cache
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\obj\Release\RequisitionPortal.BL.dll
+C:\Users\oigwubor\source\repos\RequisitionPortal\RequisitionPortal.BL\obj\Release\RequisitionPortal.BL.pdb

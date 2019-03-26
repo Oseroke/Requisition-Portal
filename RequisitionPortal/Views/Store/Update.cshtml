@@ -1,0 +1,128 @@
+﻿@model RequisitionPortal.Models.InventoryModel
+
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<script src="@Url.Content("~/Scripts/jquery-ui.min.js")"></script>
+<script type="text/javascript">
+
+    @if(TempData["Message"] != null) {
+        <text>
+            $(window).load(function()
+                {
+                $(document).ready(function()
+                    {
+                    $("#myModal").modal("show")
+                });
+            }); </text>
+    }
+</script>
+
+<h2>Update</h2>
+
+@using (Html.BeginForm())
+{    
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.PONumber, htmlAttributes: new { @class = "control-label" })
+        
+            @Html.EditorFor(model => model.PONumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PONumber, "", new { @class = "text-danger" })        
+        </div>
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.InvoiceNumber, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.InvoiceNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.InvoiceNumber, "", new { @class = "text-danger" })
+        </div>
+       
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.InvDate, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.InvDate, String.Format("{0:d}", DateTime.Today.ToShortDateString()), new { htmlAttributes = new { @class = "form-control date-picker" } })
+            @Html.ValidationMessageFor(model => model.InvDate, "", new { @class = "text-danger" })
+        </div>
+            <br />
+    @*</div>*@
+    <br /><br />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input name="SubmitButton" type="submit" value="Search" class="btn btn-default" />
+            <input name="SubmitButton" type="submit" value="Update" class="btn btn-success" />
+
+        </div>
+    </div>
+    <br /><br />
+   @*<br />    <br /><br /><br /><hr />*@
+    <div>
+        @(Html.Kendo().Grid(Model.InventoryItems)
+                                .Name("Grid")
+                                .Columns(columns =>
+                                {
+                                    columns.Bound(p => p.Quantity);
+                                    //.ClientTemplate("#= Quantity #" +
+                                    //  "<input type='hidden' name='InventoryItemModel[#= index(data)#].Quantity' value='#= Quantity #' />");
+                                    columns.Bound(p => p.ItemName);
+                                    //.ClientTemplate("#= Item.Name #" +
+                                    //  "<input type='hidden' name='InventoryItemModel[#= index(data)#].Item.Code' value='#= Item.Code #' />");
+                                    columns.Bound(p => p.UnitPrice);
+                                    //.ClientTemplate("#= UnitPrice #" +
+                                    //   "<input type='hidden' name='InventoryItemModel[#= index(data)#].UnitPrice' value='#= UnitPrice #' />").Title("Unit Price");
+                                    columns.Bound(p => p.Amount);
+                                    columns.Bound(p => p.Description);
+                                    //.ClientTemplate("#= Description #" +
+                                    //  "<input type='hidden' name='InventoryItemModel[#= index(data)#].Description' value='#= Description #' />");
+                                    //columns.Command(command => { command.Destroy(); });
+
+                                })
+                //.ToolBar(toolbar =>
+                //{
+                //    toolbar.Create();
+                //    //toolbar.Save();
+                //})
+                .Navigatable()
+                .Sortable()
+                .DataSource(dataSource => dataSource
+                .Ajax()
+                .Batch(true)
+                .ServerOperation(false)
+                .Events(events => { events.Error("error_handler"); events.RequestEnd("onRequestEnd"); })
+                .Model(model =>
+                {
+                    model.Id(p => p.Id);
+
+                })
+                .Read("Item_Read", "Store")
+                )
+        )
+    </div>
+
+}
+
+<script type="text/javascript">
+    $(function () {
+        // This will make every element with the class "date-picker" into a DatePicker element
+        $('.date-picker').datepicker();
+    })
+</script>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header cus-color">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color:white">Info</h4>
+            </div>
+            <div class="modal-body">
+                <p>@TempData["Message"]</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

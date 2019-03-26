@@ -10,5 +10,9 @@ namespace RequisitionPortal.BL.Abstracts
     public interface ISetupService
     {
         IList<ChargeCode> GetChargeCodes(bool includeDeleted);
+        IList<ChargeCode> GetChargeableChargeCodes(bool includeDeleted);
+        IList<ChargeCode> GetNonChargeableChargeCodes(bool includeDeleted, string servLineCode);
+        IList<Unit> GetAllUnits(bool includeDeleted);
+
     }
 }

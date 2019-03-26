@@ -3,8 +3,6 @@ using RequisitionPortal.BL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RequisitionPortal.BL.Logic
 {
@@ -19,18 +17,19 @@ namespace RequisitionPortal.BL.Logic
             _itemRep = itemRep;
             _vendorRep = vendorRep;
             _storeItemRep = storeItemRep;
+
         }
 
         public IList<Item> GetItems(bool includeDeleted, int itemID)
         {
             var query = _itemRep.Table;
             
-            query = query.Where(x => x.IsDeleted == false);
+            query = query.Where(x => x.IsDeleted == includeDeleted);
 
             if (itemID > 0)
-                query.Where(x => x.Id == itemID);
+                query = query.Where(x => x.Id == itemID);
 
-            return query.ToList();
+            return query.OrderBy(x=>x.Name).ToList();
         }
 
         public Item GetItem(int itemID)
@@ -128,6 +127,18 @@ namespace RequisitionPortal.BL.Logic
                 query = query.Where(x => x.Id == id);
 
             return query.FirstOrDefault();
+        }
+
+        public IList<StoreItem> GetStoreItems(bool includeDeleted, string PONumber)
+        {
+            var query = _storeItemRep.Table;
+
+            query = query.Where(x => x.IsDeleted == includeDeleted);
+
+            if (!string.IsNullOrEmpty(PONumber))
+                query = query.Where(x => x.PONumber == PONumber);
+
+            return query.ToList();
         }
     }
 }

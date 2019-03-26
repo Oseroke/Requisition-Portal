@@ -1,0 +1,72 @@
+﻿@using Kendo.Mvc.UI
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @*<meta http-equiv="X-UA-Compatible" content="IE=8" />*@
+
+    <title>@ViewBag.Title - Requisition Portal</title>
+
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/kendo/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/kendo")
+    @Scripts.Render("~/bundles/rportal")
+    <script src="~/Scripts/sweetalert.js"></script>
+    <link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top cus-color">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="@Url.Action("History", "Requisition")">
+                    <img src="@Url.Content("~/Content/images/kpmg.jpg")" alt="Home" class="logo" />
+                </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav nav-b">
+                    <li>@Html.ActionLink("New", "Create", "Requisition")</li>
+                    <li>@Html.ActionLink("History", "History", "Requisition")</li>
+
+                    @if (Roles.IsUserInRole(User.Identity.Name.Remove(0, 3), "Manager"))
+                    {
+                    <li>@Html.ActionLink("Outstanding Requisitions", "Response", "Requisition")</li>
+                    }
+                    @if (Roles.IsUserInRole(User.Identity.Name.Remove(0, 3), "Admin"))
+                    {
+                    <li>@Html.ActionLink("Requisitions", "Requisitions", "Store")</li>
+                    <li>@Html.ActionLink("Incoming", "IncomingRequisitions", "Store") </li>
+                    <li>@Html.ActionLink("Report", "Report", "Store")</li>
+                    <li>@Html.ActionLink("Vendors", "Index", "Vendor")</li>
+                    <li>@Html.ActionLink("Inventory", "Stock", "Store")</li>
+                    <li>@Html.ActionLink("POs", "Add", "Store")</li>
+                    <li>@Html.ActionLink("Invoices", "Update", "Store")</li>
+                    }
+
+                </ul>
+                <p class="nav navbar-text navbar-right username">Hello, @User.Identity.Name!</p>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - KPMG Nigeria</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

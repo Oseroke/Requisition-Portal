@@ -37,10 +37,6 @@ namespace RequisitionPortal.BL.Entities
             this.ManyToOne<Requisition>(x => x.Requisition, mp => { mp.Lazy(LazyRelation.Proxy); mp.Update(false); mp.Insert(false); mp.Column("RequisitionID"); });
             this.Property<bool>(x => x.IsDeleted, mp => { mp.Column("IsDeleted"); });
 
-            //this.ManyToOne<Requisition>(x => x.Requisition, mp => {  mp.Column("RequisitionID"); });
-            //this.ManyToOne<Item>(x => x.Item, mp => { mp.Lazy(LazyRelation.Proxy); mp.Update(false); mp.Insert(false); mp.Column("ItemID"); });
-
-
         }
     }
 }

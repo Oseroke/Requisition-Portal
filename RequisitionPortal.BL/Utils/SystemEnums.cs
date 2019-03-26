@@ -18,9 +18,17 @@ namespace RequisitionPortal.BL.Utils
             UserCancelled = 6,
             ManagerCancelled = 7,
             OutofStock = 8,
-            StoreCancelled = 9
+            StoreCancelled = 9,
+            AutoCancelled = 10
+
         }
 
+        public enum JobCodeType
+        {
+            Chargeable = 1,
+            NonChargeable = 2
+        }
+         
         public enum AuditAction
         {
             MadeRequisition = 1,

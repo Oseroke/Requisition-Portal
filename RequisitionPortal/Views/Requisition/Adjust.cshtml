@@ -1,0 +1,78 @@
+﻿@using Kendo.Mvc.UI;
+@model RequisitionPortal.Models.RequisitionModel
+
+@{
+    ViewBag.Title = "Adjust";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.LabelFor(model => model.Manager)
+        @Html.EditorFor(model => model.Manager, new { htmlAttributes = new { @class = "form-control" } });
+        @Html.ValidationMessageFor(model => model.Manager, "", new { @class = "text-danger" })*@
+    @Html.HiddenFor(model => model.Id);
+
+    @Html.Label("These are the items availabale in the store. Do you want to go ahead and make requisition or make a new requisition?") 
+
+    @*@Html.Label(" Go ahead and make requisition or make new requisition?")*@
+
+    @(Html.Kendo().Grid(Model.Items)
+                                .Name("Grid")
+                                .Columns(columns =>
+                                {
+                                    //columns.Bound(p => p.Item).EditorTemplateName("_ItemList");
+                                    columns.Bound(p => p.ItemName);
+                                    columns.Bound(p => p.Quantity);
+                                    columns.Bound(p => p.ChargeCode.Code).Title("Charge Code");
+                                    //columns.Bound(p => p.ChargeCode).EditorTemplateName("_ChargeCodeList").ClientTemplate("#= ChargeCode.Code #" +
+                                    //     "<input type='hidden' name='ReqItemModel[#= index(data)#].ChargeCode.Id' value='#= ChargeCode.Id #' />").Title("Charge Code");
+
+                                    //columns.Command(command => { command.Destroy(); });
+                                })
+    //.ToolBar(toolbar =>
+    // {
+    //   toolbar.Create();
+    //toolbar.Save();
+    //})
+    //.Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Navigatable()
+                .Sortable()
+                .DataSource(dataSource => dataSource
+                .Ajax()
+                //.Model(m=>
+                //{
+                //    m.Id(p => p.Id);
+
+                //})
+                .Batch(true)
+                .ServerOperation(false)
+                .Events(events => { events.Error("error_handler"); events.RequestEnd("onRequestEnd"); })
+                .Model(model =>
+                {
+                    model.Id(p => p.Id);
+                    //model.Field(p => p.Id);
+                    //model.Field(p => p.Name).Editable(true);
+                    model.Field(p => p.ChargeCode).DefaultValue(
+             ViewData["DefaultChargeCode"] as RequisitionPortal.Models.ReqItemModel);
+                    //model.Field(p => p.Quantity).Editable(true);
+                })
+                //.Create("Item_Create", "Requisition")
+                //.Read("Item_Read", "Requisition")
+                //.Update("Item_Update", "Requisition")
+                //.Destroy("Item_Destroy", "Requisition")
+        )
+
+    )
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input name="SubmitButton" type="submit" value="Approve" class="btn btn-default" />
+            <input name="SubmitButton" type="submit" value="Reject" class="btn btn-default" />
+        </div>
+    </div>
+}

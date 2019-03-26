@@ -1,0 +1,90 @@
+﻿@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "Response";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<script type="text/javascript">
+
+    @if(TempData["Message"] != null) {<text>
+            $(window).load(function()
+                {
+                $(document).ready(function()
+                    {
+                    @*swal({
+                        title: "Message",
+                        text: "@TempData["Message"]",
+                        type: "info"
+                        }
+                    );*@
+                    alert("@TempData["Message"].ToString()");
+                });
+            }); </text>
+    }
+</script>
+<h2>Requisitions</h2>
+
+@(Html.Kendo().Grid<RequisitionPortal.Models.RequisitionModel>()
+                    .Name("Grid")
+                    .Columns(columns =>
+                    {
+                        columns.Bound(p => p.Id).Hidden(true);
+                        columns.Bound(p => p.Requestor);
+                        columns.Bound(p => p.Manager).Title("Approving Manager");
+                        columns.Bound(p => p.StatusString).Title("Status");
+                        columns.Bound(p => p.StatusDate).Format("{0:dd-MMM-yyyy}").Title("Status Date");
+                        //if(columns.Bound(p=> p.StatusID = (int)SystemEnums.))
+                        //columns.Command(command => { command.Custom("ApproveRequest").Text("Approve Requisition").Click("approveRequisition").HtmlAttributes(new { style = "background-color:green;color:white" }); });
+                        //columns.Command(command => { command.Custom("RejectRequest").Text("Reject Requisition").Click("rejectRequisition").HtmlAttributes(new { style = "background-color:maroon;color:white" }); });
+                        columns.Template(@< text ></ text >).ClientTemplate("<a class='btn btn-primary' href='" + Url.Action("Respond", "Requisition") + "?requisitionId=#=Id#'>Respond with comments</a>");
+
+
+                        //columns.Bound(p => p.Id).ClientTemplate(@Html.ActionLink("Respond", "Respond", new { requisitionId = "#=Id#" }).ToHtmlString()).HtmlAttributes(new { @class = "btn btn-primary", style = "color:white" }).Title("");
+                        //columns.Template(p => @Html.ActionLink("Respond", "Respond", new { requis
+                        //.Events(events => { events.DataBound("onDataBound"); })itionId = "#=Id#" }).ToHtmlString()).HtmlAttributes(new { style = "background-color:green;color:white" }).Title("");
+                        //                    columns.Template(@<text></text>).ClientTemplate("<a href='" + Url.Action("Respond", "Requisition", new { requisitionID = "#=Id#" }) + "/#=Id#'>Respond</a>");
+
+                    })
+                    .Navigatable()
+                    .Selectable()
+                    .Sortable()
+                .ClientDetailTemplateId("template")
+                .DataSource(dataSource => dataSource
+                .Ajax()
+                .Batch(true)
+                .ServerOperation(false)
+                .Events(events => { events.Error("error_handler"); events.RequestEnd("onRequestEnd"); })
+                .Model(model =>
+                {
+                    model.Id(p => p.Id);
+                    model.Field(p => p.Manager);
+                })
+                .Create("Req_Create", "Requisition")
+                .Read("OutstandingReqRead", "Requisition")
+                .Update("Req_Update", "Requisition")
+                .Destroy("Req_Destroy", "Requisition")
+        )
+
+)
+
+<script id="template" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<RequisitionPortal.Models.ReqItemModel>()
+            .Name("grid_#=Id#") // template expression, to be evaluated in the master context
+            .Columns(columns =>
+            {
+                columns.Bound(o => o.ItemName).Width(70);
+                columns.Bound(o => o.Quantity).Width(20);
+                columns.Bound(o => o.ChargeCode.Code).Width(40).Title("Charge Code"); // escaped template expression, to be evaluated in the child/detail context
+            })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(8)
+                .Read(read => read.Action("ReadReqItems", "Requisition", new { requisitionID = "#=Id#" }))
+            )
+            .Pageable()
+            .Sortable()
+            .ToClientTemplate()
+    )
+</script>

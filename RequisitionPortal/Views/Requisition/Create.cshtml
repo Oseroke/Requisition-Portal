@@ -1,0 +1,136 @@
+﻿@using Kendo.Mvc.UI;
+@model RequisitionPortal.Models.RequisitionModel
+
+@{
+    ViewBag.Title = "New requisition";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    @if(TempData["Message"] != null) {
+        <text>
+            $(window).load(function()
+                {
+                $(document).ready(function()
+                    {
+                        $("#myModal").modal("show")
+                });
+    }); </text>
+    }
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <br /><br />
+    <div>
+        @Html.LabelFor(model => model.Manager)<text>&nbsp;</text>
+        @*@Html.DropDownListFor(model => model.Manager, Model.Managers, new { htmlAttributes = new { @class = "form-control" } });
+            @Html.ValidationMessageFor(model => model.Manager, "", new { @class = "text-danger" })*@
+
+        @(Html.Kendo().DropDownListFor(m => m.Manager)
+        .DataValueField("Value")
+        .DataTextField("Text")
+                .BindTo((System.Collections.IEnumerable)Model.Managers)
+                    .Animation(mp =>
+                    {
+                        mp.Open(x => { x.Zoom(ZoomDirection.In); });
+                        mp.Close(x => { x.Zoom(ZoomDirection.Out); });
+                    })
+        )
+    </div>
+    <br /><br />
+
+@(Html.Kendo().Grid(Model.Items)
+                                .Name("Grid")
+                                .Columns(columns =>
+                                {
+                                    columns.Bound(p => p.Item).ClientTemplate("#= Item.Name #" +
+                                        "<input type='hidden' name='ReqItemModel[#= index(data)#].Item.Code' value='#= Item.Code #' />");
+                                    columns.Bound(p => p.Quantity).ClientTemplate("#= Quantity #" +
+                                        "<input type='hidden' name='ReqItemModel[#= index(data)#].Quantity' value='#= Quantity #' />");
+                                    columns.Bound(p => p.ChargeCode).ClientTemplate("#= ChargeCode.Code #" +
+                                         "<input type='hidden' name='ReqItemModel[#= index(data)#].ChargeCode.Code' value='#= ChargeCode.Code #' />").Title("Charge Code");
+
+                                    columns.Command(command => { command.Destroy(); });
+
+                                    //columns.Bound(p => p.Item).ClientTemplate("#= Item.Name #" +
+                                    //     "<input type='hidden' name='ReqItemModel[#= index(data)#].Item.Code' value='#= Item.Code #' />");
+
+                                })
+                .ToolBar(toolbar =>
+                {
+                    toolbar.Create();
+                    //toolbar.Save();
+                })
+                .Editable(editable => editable.Mode(GridEditMode.InCell).CreateAt(GridInsertRowPosition.Bottom))
+                .Navigatable()
+                .Sortable()
+                .DataSource(dataSource => dataSource
+                .Ajax()
+                .Batch(true)
+                .ServerOperation(false)
+                .Events(events => { events.Error("error_handler"); events.RequestEnd("onRequestEnd"); })
+                .Model(model =>
+                {
+                    model.Id(p => p.Id);
+
+                    model.Field(p => p.ChargeCode).DefaultValue(
+                        ViewData["DefaultChargeCode"] as RequisitionPortal.Models.ChargeCodeModel);
+
+                    model.Field(p => p.Item).DefaultValue(
+                        ViewData["DefaultItem"] as RequisitionPortal.Models.ItemModel);
+                })
+                .Create("Item_Create", "Requisition")
+                .Read("Item_Read", "Requisition")
+                .Update("Item_Update", "Requisition")
+                .Destroy("Item_Destroy", "Requisition")
+        )
+
+)
+    <br/>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Submit for Manager Approval" class="btn btn-success"  />
+            <input type="button" id ="btnPersonal" value="Click here for personal requests" class="btn btn-info" />
+        </div>@*Click here for personal requests", "Personal")*@
+    </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#btnPersonal').click(function (e)
+      {
+          location.href = '@Url.Content("~/Requisition/Personal/")';
+      });
+
+    });
+    </script>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content cus-color">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="color:white">Info</h4>
+                </div>
+                <div class="modal-body">
+                    <p>@TempData["Message"]</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+}
+

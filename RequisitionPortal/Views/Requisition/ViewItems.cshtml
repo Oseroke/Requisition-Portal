@@ -1,0 +1,74 @@
+﻿@using Kendo.Mvc.UI;
+@model RequisitionPortal.Models.RequisitionModel
+
+@{
+    ViewBag.Title = "ViewItems";
+}
+
+<h2>View Requested Items</h2>
+<p class="nav navbar-text navbar-right">
+    @Html.ActionLink("Return to List", "History")
+</p>
+<br /><br />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.Id);
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Item")
+            </th>
+            <th>
+                @Html.DisplayName("Quantity")
+            </th>
+            <th>
+                @Html.DisplayName("Charge Code")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChargeCode.Code)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    
+    <br /><br />
+    <div class="form-group">
+        @*@Html.Kendo().EditorFor(m => m.Description)*@
+        @if(!string.IsNullOrEmpty(Model.Description))
+        {
+            @Html.DisplayFor(m => m.Description);
+        }
+    </div>
+
+    <br /><br />
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @if ((Model.StatusID == 1) || (Model.Manager == Model.Requestor))
+            {
+                <input name="SubmitButton" type="submit" value="Cancel" class="btn btn-danger" />
+            }
+            @if(Model.StatusID == 7)
+            {
+                @Html.ActionLink("Update Requisition", "Replay", new { requisitionId = Model.Id }, new { @class = "btn btn-primary" })
+            }
+        </div>
+    </div>
+}

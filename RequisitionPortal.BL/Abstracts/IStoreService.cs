@@ -24,5 +24,6 @@ namespace RequisitionPortal.BL.Abstracts
         Vendor SaveVendor(Vendor vendor);
 
         Vendor GetVendor(bool includeDeleted, int id);
+        IList<StoreItem> GetStoreItems(bool includeDeleted, string PONumber);
     }
 }

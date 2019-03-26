@@ -1,0 +1,86 @@
+﻿@using Kendo.Mvc.UI;
+@model RequisitionPortal.Models.RequisitionModel
+
+@{
+    ViewBag.Title = "Replay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.LabelFor(model => model.Manager)
+        @*@Html.EditorFor(model => model.Manager, new { htmlAttributes = new { @class = "form-control" } });*@
+    @(Html.Kendo().DropDownListFor(m => m.Manager)
+        .DataValueField("Value")
+        .DataTextField("Text")
+                .BindTo((System.Collections.IEnumerable)Model.Managers)
+                    .Animation(mp =>
+                    {
+                        mp.Open(x => { x.Zoom(ZoomDirection.In); });
+                        mp.Close(x => { x.Zoom(ZoomDirection.Out); });
+                    })
+    )
+        @Html.ValidationMessageFor(model => model.Manager, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id);
+
+    
+
+   @(Html.Kendo().Grid(Model.Items)
+                                .Name("Grid")
+                                .Columns(columns =>
+                                {
+                                    columns.Bound(p => p.Item).ClientTemplate("#= Item.Name #" +
+                                        "<input type='hidden' name='ReqItemModel[#= index(data)#].Item.Code' value='#= Item.Code #' />");
+                                    columns.Bound(p => p.Quantity).ClientTemplate("#= Quantity #" +
+                                        "<input type='hidden' name='ReqItemModel[#= index(data)#].Quantity' value='#= Quantity #' />");
+                                    columns.Bound(p => p.ChargeCode).ClientTemplate("#= ChargeCode.Code #" +
+                                         "<input type='hidden' name='ReqItemModel[#= index(data)#].ChargeCode.Code' value='#= ChargeCode.Code #' />").Title("Charge Code");
+
+                                    columns.Command(command => { command.Destroy(); });
+
+                                    //columns.Bound(p => p.Item).ClientTemplate("#= Item.Name #" +
+                                    //     "<input type='hidden' name='ReqItemModel[#= index(data)#].Item.Code' value='#= Item.Code #' />");
+
+                                })
+                .ToolBar(toolbar =>
+                {
+                    toolbar.Create();
+                    //toolbar.Save();
+                })
+                .Editable(editable => editable.Mode(GridEditMode.InCell).CreateAt(GridInsertRowPosition.Bottom))
+                .Navigatable()
+
+                .Sortable()
+                .DataSource(dataSource => dataSource
+                .Ajax()
+                .Batch(true)
+                .ServerOperation(false)
+                .Events(events => { events.Error("error_handler"); events.RequestEnd("onRequestEnd"); })
+                .Model(model =>
+                {
+                    model.Id(p => p.Id);
+
+                    model.Field(p => p.ChargeCode).DefaultValue(
+                        ViewData["DefaultChargeCode"] as RequisitionPortal.Models.ChargeCodeModel);
+
+                    model.Field(p => p.Item).DefaultValue(
+                        ViewData["DefaultItem"] as RequisitionPortal.Models.ItemModel);
+                })
+                .Create("Item_Create", "Requisition")
+                .Read("Item_Read", "Requisition")
+                .Update("Item_Update", "Requisition")
+                .Destroy("Item_Destroy", "Requisition")
+        )
+
+)
+    <br />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Submit for Manager Approval" class="btn btn-success" />
+        </div>
+    </div>
+}

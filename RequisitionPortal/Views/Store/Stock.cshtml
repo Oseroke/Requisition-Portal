@@ -1,0 +1,71 @@
+﻿@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = "Stock";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Inventory</h2>
+@Html.ActionLink("Add new item", "Add", "Store")
+
+@(Html.Kendo().Grid<RequisitionPortal.Models.ItemModel>()
+              .Name("Grid")
+              .Columns(columns =>
+              {
+                  columns.Bound(p => p.Id).Hidden(true);
+                  columns.Bound(p => p.Code).Filterable(filterable => filterable.UI("codeFilter"));
+                  columns.Bound(p => p.Name).Filterable(filterable => filterable.UI("nameFilter"));
+                  columns.Bound(p => p.Quantity).Format("{0:0,00}");
+                  columns.Bound(p => p.UnitPrice).Format("{0:0,00}").Title("Unit Price").Filterable(false);
+              })
+                .Filterable(f => f
+                    .Extra(false)
+                    .Operators(op => op
+                    .ForString(str => str.Clear()
+                    .IsEqualTo("Is Equal To"))))
+                .Navigatable()
+                .Selectable()
+                .Sortable()
+                .Pageable()
+                .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(20)
+                .Batch(true)
+                .ServerOperation(false)
+                .Events(events => { events.Error("error_handler"); events.RequestEnd("onRequestEnd"); })
+                .Model(model =>
+                {
+                    model.Id(p => p.Id);
+                })
+                .Create("StoreCreate", "Store")
+                .Read("StoreRead", "Store")
+                .Update("StoreUpdate", "Store")
+                .Destroy("StoreDestroy", "Store")
+        )
+
+)
+
+<script>
+    function codeFilter(element) {
+        element.kendoDropDownList({
+            dataSource: {
+                transport: {
+                    read: "@Url.Action("FilterMenuCustomization_Code")"
+                }
+            },
+            optionLabel: "--Select Value--"
+        });
+    }
+
+    function nameFilter(element) {
+        element.kendoDropDownList({
+            dataSource: {
+                transport: {
+                    read: "@Url.Action("FilterMenuCustomization_Name")"
+                }
+            },
+            optionLabel: "--Select Value--"
+        });
+    }
+
+</script>

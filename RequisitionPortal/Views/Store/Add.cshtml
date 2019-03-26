@@ -1,0 +1,143 @@
+﻿@using Kendo.Mvc.UI;
+@model RequisitionPortal.Models.InventoryModel
+
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<script src="@Url.Content("~/Scripts/jquery-ui.min.js")"></script>
+
+<script type="text/javascript">
+
+    @if(TempData["Message"] != null) {
+        <text>
+            $(window).load(function()
+                {
+                $(document).ready(function()
+                    {
+                    $("#myModal").modal("show")
+                });
+            }); </text>
+    }
+</script>
+
+<div class="pull-right">
+    @Html.ActionLink("Back to List", "Stock")
+</div>
+
+<h2>Add New Item</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.VendorID, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.DropDownListFor(x => x.VendorID, Model.Vendors, new { @class = "col-md-2" })
+            @Html.ValidationMessageFor(model => model.VendorID, "", new { @class = "text-danger" })
+        </div>
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.PODate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.EditorFor(model => model.PODate, DateTime.Today.ToShortDateString(), new { htmlAttributes = new { @class = "date-picker" } })
+            @Html.ValidationMessageFor(model => model.PODate, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PONumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.EditorFor(model => model.PONumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PONumber, "", new { @class = "text-danger" })
+            @*</div>*@
+        </div>
+
+
+
+        @(Html.Kendo().Grid(Model.InventoryItems)
+                                .Name("Grid")
+                                .Columns(columns =>
+                                {
+                                    columns.Bound(p => p.Quantity).ClientTemplate("#= Quantity #" +
+                                        "<input type='hidden' name='InventoryItemModel[#= index(data)#].Quantity' value='#= Quantity #' />");
+                                    columns.Bound(p => p.Item).ClientTemplate("#= Item.Name #" +
+                                        "<input type='hidden' name='InventoryItemModel[#= index(data)#].Item.Code' value='#= Item.Code #' />");
+                                    columns.Bound(p => p.UnitPrice).ClientTemplate("#= UnitPrice #" +
+                                         "<input type='hidden' name='InventoryItemModel[#= index(data)#].UnitPrice' value='#= UnitPrice #' />").Title("Unit Price");
+                                    columns.Bound(p => p.Description).ClientTemplate("#= Description #" +
+                                        "<input type='hidden' name='InventoryItemModel[#= index(data)#].Description' value='#= Description #' />");
+
+                                    columns.Command(command => { command.Destroy(); });
+
+                                })
+                .ToolBar(toolbar =>
+                {
+                    toolbar.Create();
+                })
+                .Editable(editable => editable.Mode(GridEditMode.InCell).CreateAt(GridInsertRowPosition.Bottom))
+                .Navigatable()
+
+                .Sortable()
+                .DataSource(dataSource => dataSource
+                .Ajax()
+                .Batch(true)
+                .ServerOperation(false)
+                .Events(events => { events.Error("error_handler"); events.RequestEnd("onRequestEnd"); })
+                .Model(model =>
+                {
+                    model.Id(p => p.Id);
+
+                    model.Field(p => p.Item).DefaultValue(
+                        ViewData["DefaultItem"] as RequisitionPortal.Models.ItemModel);
+                })
+                .Create("Item_Create", "Store")
+                .Read("Item_Read", "Store")
+                .Update("Item_Update", "Store")
+                .Destroy("Item_Destroy", "Store")
+        )
+
+        )
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Code to wire up your DatePicker -->
+<script type="text/javascript">
+    $(function () {
+        // This will make every element with the class "date-picker" into a DatePicker element
+        $('.date-picker').datepicker();
+    })
+</script>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header cus-color">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="color:white">Info</h4>
+            </div>
+            <div class="modal-body">
+                <p>@TempData["Message"]</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@*@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@
